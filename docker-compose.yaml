@@ -1,0 +1,78 @@
+networks:
+  chat-auth-node:
+    driver: bridge
+  observability:
+    driver: bridge
+
+services:
+  postgres-chat-auth:
+    image: postgres
+    restart: always
+    ports:
+      - 5432:5432
+    container_name: postgres-chat-auth
+    volumes:
+      - ./tmp/database/postgres:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres-chat-auth
+      POSTGRES_PASSWORD: postgres-chat-auth
+      POSTGRES_DB: chat-auth
+    networks:
+      - chat-auth-node
+      - observability
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    extra_hosts:
+      - host.docker.internal:host-gateway
+  mongo-chat-auth:
+    image: mongo
+    restart: always
+    container_name: mongo-chat-auth
+    ports:
+      - 27017:27017
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "'db.runCommand('ping').ok'", "--quiet"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - chat-auth-node
+      - observability
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongo-chat-auth
+      MONGO_INITDB_ROOT_PASSWORD: mongo-chat-auth
+      MONGO_INITDB_DATABASE: chat-auth
+    volumes:
+      - ./tmp/database/mongo:/data/db
+    extra_hosts:
+      - host.docker.internal:host-gateway
+  chat-auth-node:
+    build:
+      context: .
+      dockerfile: ./.docker/dockerfiles/Dockerfile
+    container_name: chat-auth-node
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/usr/chat-auth-node/app
+    environment:
+      NODE_ENV: development
+      PORT: 3000
+      MONGO_HOST: host.docker.internal
+      MONGO_PORT: 27017
+      MONGO_PASSWORD: mongo-chat-auth
+      MONGO_USER: mongo-chat-auth
+      MONGO_DB: chat-auth
+      POSTGRES_DB: chat-auth
+      POSTGRES_HOST: host.docker.internal
+      POSTGRES_PORT: 5432
+      POSTGRES_PASSWORD: postgres-chat-auth
+      POSTGRES_USER: postgres-chat-auth
+    networks:
+      - chat-auth-node
+      - observability
+    extra_hosts:
+      - host.docker.internal:host-gateway

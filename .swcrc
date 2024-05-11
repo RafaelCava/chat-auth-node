@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json.schemastore.org/swcrc",
+  "sourceMaps": true,
+  "exclude": [
+    "node_modules",
+    "dist"
+  ],
+  "module": {
+    "type": "commonjs"
+  },
+  "test": ".*\\.ts$",
+  "jsc": {
+    "parser": {
+      "syntax": "typescript"
+    },
+    "target": "es2019",
+    "loose": false,
+    "externalHelpers": false,
+    // Requires v1.2.50 or upper and requires target to be es2016 or upper.
+    "keepClassNames": false
+  },
+  "minify": false
+}
