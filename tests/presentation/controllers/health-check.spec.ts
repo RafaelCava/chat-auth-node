@@ -1,8 +1,7 @@
-import { Validation } from "@/presentation/protocols";
 import { HealthCheckController } from "@/presentation/controllers/health-check";
-import { faker } from '@faker-js/faker';
-import { ValidationSpy } from "../mocks";
 import { ok, serverError } from "@/presentation/helpers/http-helper";
+import { ValidationSpy } from "../mocks";
+import { faker } from '@faker-js/faker';
 
 type SutTypes = {
   sut: HealthCheckController
