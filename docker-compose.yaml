@@ -57,7 +57,7 @@ services:
     container_name: chat-auth-node
     ports:
       - 3000:3000
-      - 5555:5555  // For prisma studio
+      - 5555:5555  # For prisma studio
     volumes:
       - .:/usr/chat-auth-node/app
     healthcheck:
