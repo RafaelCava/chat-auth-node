@@ -6,6 +6,4 @@ RUN apt-get update && apt-get install -y \
     curl \
     git
 
-USER node
-
 CMD ["tail", "-f", "/dev/null"]

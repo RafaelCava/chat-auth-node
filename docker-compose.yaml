@@ -57,6 +57,7 @@ services:
     container_name: chat-auth-node
     ports:
       - 3000:3000
+      - 5555:5555  // For prisma studio
     volumes:
       - .:/usr/chat-auth-node/app
     healthcheck:
@@ -78,3 +79,6 @@ services:
       - observability
     extra_hosts:
       - host.docker.internal:host-gateway
+    depends_on:
+      - postgres-chat-auth
+      - mongo-chat-auth
