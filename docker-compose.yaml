@@ -53,11 +53,17 @@ services:
     build:
       context: .
       dockerfile: ./.docker/dockerfiles/Dockerfile
+    entrypoint: sh ./.docker/entrypoints/entrypoint-dev.sh
     container_name: chat-auth-node
     ports:
       - 3000:3000
     volumes:
       - .:/usr/chat-auth-node/app
+    healthcheck:
+      test: ["CMD", "bash", "-c", "curl -f http://localhost:3000/api/health || exit 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
     environment:
       NODE_ENV: development
       PORT: 3000
@@ -66,11 +72,7 @@ services:
       MONGO_PASSWORD: mongo-chat-auth
       MONGO_USER: mongo-chat-auth
       MONGO_DB: chat-auth
-      POSTGRES_DB: chat-auth
-      POSTGRES_HOST: host.docker.internal
-      POSTGRES_PORT: 5432
-      POSTGRES_PASSWORD: postgres-chat-auth
-      POSTGRES_USER: postgres-chat-auth
+      DATABASE_URL: "postgresql://postgres-chat-auth:postgres-chat-auth@host.docker.internal:5432/chat-auth?schema=public"
     networks:
       - chat-auth-node
       - observability
