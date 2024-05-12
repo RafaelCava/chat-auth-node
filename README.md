@@ -9,28 +9,28 @@
 <h1 align="center">Chat Auth Node</h1>
 
 <p align="center">
-  <img alt="Principal linguagem do projeto" src="https://img.shields.io/github/languages/top/{{YOUR_GITHUB_USERNAME}}/chat-auth-node?color=56BEB8">
+  <img alt="Principal linguagem do projeto" src="https://img.shields.io/github/languages/top/RafaelCava/chat-auth-node?color=56BEB8">
 
-  <img alt="Quantidade de linguagens utilizadas" src="https://img.shields.io/github/languages/count/{{YOUR_GITHUB_USERNAME}}/chat-auth-node?color=56BEB8">
+  <img alt="Quantidade de linguagens utilizadas" src="https://img.shields.io/github/languages/count/RafaelCava/chat-auth-node?color=56BEB8">
 
-  <img alt="Tamanho do repositório" src="https://img.shields.io/github/repo-size/{{YOUR_GITHUB_USERNAME}}/chat-auth-node?color=56BEB8">
+  <img alt="Tamanho do repositório" src="https://img.shields.io/github/repo-size/RafaelCava/chat-auth-node?color=56BEB8">
 
-  <img alt="Licença" src="https://img.shields.io/github/license/{{YOUR_GITHUB_USERNAME}}/chat-auth-node?color=56BEB8">
+  <img alt="Licença" src="https://img.shields.io/github/license/RafaelCava/chat-auth-node?color=56BEB8">
 
-  <!-- <img alt="Github issues" src="https://img.shields.io/github/issues/{{YOUR_GITHUB_USERNAME}}/chat-auth-node?color=56BEB8" /> -->
+  <!-- <img alt="Github issues" src="https://img.shields.io/github/issues/RafaelCava/chat-auth-node?color=56BEB8" /> -->
 
-  <!-- <img alt="Github forks" src="https://img.shields.io/github/forks/{{YOUR_GITHUB_USERNAME}}/chat-auth-node?color=56BEB8" /> -->
+  <!-- <img alt="Github forks" src="https://img.shields.io/github/forks/RafaelCava/chat-auth-node?color=56BEB8" /> -->
 
-  <!-- <img alt="Github stars" src="https://img.shields.io/github/stars/{{YOUR_GITHUB_USERNAME}}/chat-auth-node?color=56BEB8" /> -->
+  <!-- <img alt="Github stars" src="https://img.shields.io/github/stars/RafaelCava/chat-auth-node?color=56BEB8" /> -->
 </p>
 
-<!-- Status -->
+Status
 
-<!-- <h4 align="center"> 
+<h4 align="center"> 
 	🚧  Chat Auth Node 🚀 Em construção...  🚧
 </h4> 
 
-<hr> -->
+<hr>
 
 <p align="center">
   <a href="#dart-sobre">Sobre</a> &#xa0; | &#xa0; 
@@ -39,7 +39,7 @@
   <a href="#white_check_mark-pré-requisitos">Pré requisitos</a> &#xa0; | &#xa0;
   <a href="#checkered_flag-começando">Começando</a> &#xa0; | &#xa0;
   <a href="#memo-licença">Licença</a> &#xa0; | &#xa0;
-  <a href="https://github.com/{{YOUR_GITHUB_USERNAME}}" target="_blank">Autor</a>
+  <a href="https://github.com/RafaelCava" target="_blank">Autor</a>
 </p>
 
 <br>
@@ -72,7 +72,7 @@ Antes de começar :checkered_flag:, você precisa ter o [Git](https://git-scm.co
 
 ```bash
 # Clone este repositório
-$ git clone https://github.com/{{YOUR_GITHUB_USERNAME}}/chat-auth-node
+$ git clone https://github.com/RafaelCava/chat-auth-node
 
 # Entre na pasta
 $ cd chat-auth-node
@@ -91,7 +91,7 @@ $ yarn start
 Este projeto está sob licença MIT. Veja o arquivo [LICENSE](LICENSE.md) para mais detalhes.
 
 
-Feito com :heart: por <a href="https://github.com/{{YOUR_GITHUB_USERNAME}}" target="_blank">{{YOUR_NAME}}</a>
+Feito com :heart: por <a href="https://github.com/RafaelCava" target="_blank">Rafael Cavalcante</a>
 
 &#xa0;
 
