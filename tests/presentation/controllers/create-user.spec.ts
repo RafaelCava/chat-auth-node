@@ -1,7 +1,8 @@
 import { CreateUserController } from "@/presentation/controllers";
-import { ValidationSpy } from "../mocks";
+import { badRequest } from "@/presentation/helpers/http-helper";
 import { CreateUserUseCaseSpy } from "@/tests/domain/mocks";
 import { faker } from "@faker-js/faker";
+import { ValidationSpy } from "../mocks";
 
 type SutTypes = {
   sut: CreateUserController;
@@ -38,5 +39,16 @@ describe('Create User Controller', () => {
     await sut.handle(request);
     expect(validationSpy.count).toBe(1);
     expect(validationSpy.params).toEqual(request);
+  })
+
+  it('should return 400 if Validation returns error', async () => {
+    const { sut, validationSpy } = makeSut();
+    validationSpy.returnError = true;
+    const response = await sut.handle({
+      name: faker.person.fullName(),
+      email: faker.internet.email(),
+      password: faker.internet.password(),
+    });
+    expect(response).toEqual(badRequest(validationSpy.errorValue));
   })
 });
