@@ -1,7 +1,7 @@
 import { badRequest, created, serverError } from "../helpers/http-helper";
 import { Controller, HttpResponse, Validation } from "../protocols";
 
-export class CreateUserController implements Controller {
+export class CreateUserController implements Controller<CreateUserController.Request> {
   constructor(
     private readonly validation: Validation,
     private readonly createUser: CreateUserUseCase,
