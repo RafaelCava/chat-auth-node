@@ -1,9 +1,9 @@
 import { type HttpResponse } from '@/presentation/protocols/http'
 
-// export const badRequest = (error: Error): HttpResponse<Error> => ({
-//   statusCode: 400,
-//   body: error
-// })
+export const badRequest = (error: Error): HttpResponse<Error> => ({
+  statusCode: 400,
+  body: error
+})
 
 export const serverError = (error: Error): HttpResponse<Error> => ({
   statusCode: 500,
@@ -17,6 +17,12 @@ export function ok<T> (body: T): HttpResponse<T> {
   }
 }
 
+export function created<T> (body: T): HttpResponse<T> {
+  return {
+    body,
+    statusCode: 201
+  }
+}
 // export const forbidden = (error: Error): HttpResponse<Error> => ({
 //   statusCode: 403,
 //   body: error
