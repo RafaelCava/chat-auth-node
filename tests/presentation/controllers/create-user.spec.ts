@@ -62,4 +62,16 @@ describe('Create User Controller', () => {
     });
     expect(response).toEqual(serverError(validationSpy.errorValue));
   })
+
+  it('should call CreateUserUseCase with correct values', async () => {
+    const { sut, createUserUseCaseSpy } = makeSut();
+    const request = {
+      name: faker.person.fullName(),
+      email: faker.internet.email(),
+      password: faker.internet.password(),
+    };
+    await sut.handle(request);
+    expect(createUserUseCaseSpy.count).toBe(1);
+    expect(createUserUseCaseSpy.params).toEqual(request);
+  })
 });
