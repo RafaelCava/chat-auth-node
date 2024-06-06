@@ -1,3 +1,4 @@
+import { CreateUserUseCase } from "@/domain/usecases";
 import { badRequest, created, serverError } from "../helpers/http-helper";
 import { Controller, HttpResponse, Validation } from "../protocols";
 
@@ -29,13 +30,5 @@ export namespace CreateUserController {
     password: string;
   };
 
-  export type Response = HttpResponse<CreateUserController | Error>
-
-  export type CreateUserResponse = {
-    id: string;
-    email: string;
-    name: string;
-    createdAt: string;
-    updatedAt: string;
-  }
+  export type Response = HttpResponse<CreateUserUseCase.Response | Error>
 }
