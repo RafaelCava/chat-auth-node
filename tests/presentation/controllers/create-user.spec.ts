@@ -1,5 +1,5 @@
 import { CreateUserController } from "@/presentation/controllers";
-import { badRequest } from "@/presentation/helpers/http-helper";
+import { badRequest, serverError } from "@/presentation/helpers/http-helper";
 import { CreateUserUseCaseSpy } from "@/tests/domain/mocks";
 import { faker } from "@faker-js/faker";
 import { ValidationSpy } from "../mocks";
@@ -50,5 +50,16 @@ describe('Create User Controller', () => {
       password: faker.internet.password(),
     });
     expect(response).toEqual(badRequest(validationSpy.errorValue));
+  })
+
+  it('should return 500 if Validation throws', async () => {
+    const { sut, validationSpy } = makeSut();
+    validationSpy.throwsError = true;
+    const response = await sut.handle({
+      name: faker.person.fullName(),
+      email: faker.internet.email(),
+      password: faker.internet.password(),
+    });
+    expect(response).toEqual(serverError(validationSpy.errorValue));
   })
 });
