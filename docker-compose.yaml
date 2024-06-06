@@ -49,6 +49,22 @@ services:
       - ./tmp/database/mongo:/data/db
     extra_hosts:
       - host.docker.internal:host-gateway
+  redis-auth-node:
+    image: redis
+    restart: always
+    container_name: redis-auth-node
+    ports:
+      - 6379:6379
+    networks:
+      - chat-auth-node
+      - observability
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    extra_hosts:
+      - host.docker.internal:host-gateway
   chat-auth-node:
     build:
       context: .
@@ -82,3 +98,4 @@ services:
     depends_on:
       - postgres-chat-auth
       - mongo-chat-auth
+      - redis-auth-node
