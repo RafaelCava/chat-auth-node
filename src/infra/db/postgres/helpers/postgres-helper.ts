@@ -18,6 +18,7 @@ export class PostgresHelper {
         console.log('Params: ' + event.params)
         console.log('Duration: ' + event.duration + 'ms')
       })
+      console.log('Postgres connected')
     }
   }
   static async isConnected (): Promise<boolean> {

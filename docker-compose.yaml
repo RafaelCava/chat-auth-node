@@ -58,6 +58,8 @@ services:
     networks:
       - chat-auth-node
       - observability
+    volumes:
+      - ./tmp/database/redis:/data
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 5s
@@ -90,6 +92,7 @@ services:
       MONGO_USER: mongo-chat-auth
       MONGO_DB: chat-auth
       DATABASE_URL: "postgresql://postgres-chat-auth:postgres-chat-auth@host.docker.internal:5432/chat-auth?schema=public"
+      REDIS_URL: "redis://host.docker.internal:6379"
     networks:
       - chat-auth-node
       - observability
