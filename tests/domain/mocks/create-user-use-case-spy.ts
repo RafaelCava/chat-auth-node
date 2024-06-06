@@ -1,7 +1,7 @@
 import { CreateUserUseCase } from '@/domain/usecases/create-user';
+import { CreateUserController } from '@/presentation/controllers';
 import { Spy } from '@/tests/shared/spy';
 import { faker } from '@faker-js/faker';
-import { makeCreateUserUseCaseResponse } from './make-create-user-use-case-response';
 export class CreateUserUseCaseSpy implements CreateUserUseCase, Spy<CreateUserUseCase.Params, CreateUserUseCase.Response> {
   params: CreateUserUseCase.Params;
   count: number = 0;
@@ -21,3 +21,17 @@ export class CreateUserUseCaseSpy implements CreateUserUseCase, Spy<CreateUserUs
     return Promise.resolve(this.result);
   }
 }
+
+export const makeCreateUserUseCaseResponse = (): CreateUserUseCase.Response => ({
+  id: faker.string.uuid(),
+  name: faker.person.fullName(),
+  email: faker.internet.email(),
+  createdAt: faker.date.recent().toISOString(),
+  updatedAt: faker.date.recent().toISOString(),
+})
+
+export const makeCreateUserControllerRequest = (): CreateUserController.Request => ({
+  name: faker.person.fullName(),
+  email: faker.internet.email(),
+  password: faker.internet.password(),
+})
