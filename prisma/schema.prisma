@@ -5,7 +5,7 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
   binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
 }
 
@@ -15,20 +15,31 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  name      String?
-  password  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  rooms     Room[]
+  id         String       @id @default(cuid())
+  email      String       @unique
+  name       String?
+  password   String
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+  ownerRooms Room[]
+  rooms      UserOnRoom[]
 }
 
 model Room {
-  id        String   @id @default(cuid())
-  name      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  ownerId   String
-  owner     User     @relation(fields: [ownerId], references: [id])
+  id         String       @id @default(cuid())
+  name       String
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+  ownerId    String
+  owner      User?         @relation(fields: [ownerId], references: [id])
+  UserOnRoom UserOnRoom[]
+}
+
+model UserOnRoom {
+  userId String
+  roomId String
+  User   User   @relation(fields: [userId], references: [id])
+  Room   Room   @relation(fields: [roomId], references: [id])
+
+  @@id([userId, roomId])
 }
