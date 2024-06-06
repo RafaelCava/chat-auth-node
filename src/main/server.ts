@@ -1,8 +1,8 @@
 import 'module-alias/register'
 import { MongoHelper } from '@/infra/db/mongodb/helpers/mongo-helper'
 import { PostgresHelper } from '@/infra/db/postgres/helpers/postgres-helper'
-import env from './config/env'
 import { RedisHelper } from '@/infra/db/redis/helpers/redis-helper'
+import env from '@/main/config/env'
 
 Promise.all([
   MongoHelper.connect(env.mongoUrl),
