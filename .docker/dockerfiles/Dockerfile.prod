@@ -33,11 +33,11 @@ RUN apk add --no-cache bash curl
 LABEL org.opencontainers.image.authors="ra.facavalcante@hotmail.com"
 LABEL org.opencontainers.image.description = "Chat Auth Node"
 
-COPY --from=builder /usr/chat-auth-node/app/dist ./dist
-COPY --from=builder /usr/chat-auth-node/app/node_modules ./node_modules
 COPY .docker/entrypoints/entrypoint-prod.sh ./entrypoint.sh
 COPY package.json .
 COPY prisma .
+COPY --from=builder /usr/chat-auth-node/app/dist ./dist
+COPY --from=builder /usr/chat-auth-node/app/node_modules ./node_modules
 
 CMD [ "sh", "./entrypoint.sh" ]
 
