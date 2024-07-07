@@ -9,6 +9,6 @@ export namespace FindUserByEmailRepository {
 
   export type Params = {
     email: string
-    projection: [keyof Result]
+    projection?: Array<keyof User>
   }
 }

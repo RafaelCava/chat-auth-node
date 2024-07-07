@@ -7,6 +7,13 @@ export class PostgresHelper {
     await this.client.$connect()
     this.startListeners()
   }
+  static formateProjection (projection: string[]): Record<string, boolean> {
+    const select = {}
+    projection.forEach(key => {
+      select[key] = true
+    })
+    return select
+  }
   static async disconnect (): Promise<void> {
     await this.client.$disconnect()
     this.client = null
