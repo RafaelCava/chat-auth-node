@@ -14,6 +14,9 @@ export default async (): Promise<Config> => {
     transform: {
       '.+\\.ts$': '@swc/jest'
     },
+    reporters: [
+      ['jest-slow-test-reporter', { 'numTests': 5, 'warnOnSlowerThan': 300, 'color': true }]
+    ],
     // preset: '@shelf/jest-mongodb',
     moduleNameMapper: {
       '@/tests/(.*)': '<rootDir>/tests/$1',
