@@ -15,6 +15,7 @@ export default async (): Promise<Config> => {
       '.+\\.ts$': '@swc/jest'
     },
     reporters: [
+      'default',
       ['jest-slow-test-reporter', { 'numTests': 5, 'warnOnSlowerThan': 300, 'color': true }]
     ],
     // preset: '@shelf/jest-mongodb',
