@@ -1,6 +1,6 @@
 
 import { CreateUserRepositorySpy, FindUserByEmailRepositorySpy } from '../mocks/repositories';
-import { UserExistsError } from '@/data/shared/erros';
+import { UserExistsError } from '@/presentation/erros';
 import { CreateUser } from '@/data/usecases';
 import { User } from '@/domain/entities';
 import { faker } from '@faker-js/faker';

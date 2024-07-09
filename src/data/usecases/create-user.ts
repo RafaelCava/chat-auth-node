@@ -1,7 +1,7 @@
-import { UserExistsError } from '../shared/erros';
 import { CreateUserRepository, FindUserByEmailRepository } from '@/data/protocols';
 import { User } from '@/domain/entities';
 import { CreateUserUseCase } from "@/domain/usecases";
+import { UserExistsError } from '@/presentation/erros';
 
 export class CreateUser implements CreateUserUseCase {
   constructor(
