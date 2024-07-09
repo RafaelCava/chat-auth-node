@@ -1,4 +1,4 @@
-import { DatabaseConnectionError } from '@/infra/shared/erros';
+import { DatabaseConnectionError } from '@/presentation/erros';
 describe('DatabaseConnectionError', () => {
   it('should be defined', () => {
     const database = 'Teste Database'

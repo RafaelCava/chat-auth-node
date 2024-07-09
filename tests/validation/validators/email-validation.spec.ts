@@ -1,36 +1,11 @@
 import { EmailValidation } from '@/validation/validators'
-import { EmailValidator } from '@/validation/protocols'
 import { InvalidParamError } from '@/presentation/erros'
-import { Spy } from '@/tests/shared/spy'
 import { faker } from '@faker-js/faker'
+import { EmailValidatorSpy } from '../mocks/email-validator'
 
 type SutTypes = {
   sut: EmailValidation
   emailValidatorSpy: EmailValidatorSpy
-}
-
-class EmailValidatorSpy implements EmailValidator, Spy {
-  params: string = ''
-  count: number = 0
-  returnError: boolean = false
-  returnNull?: boolean = false
-  returnFalse?: boolean = false
-  errorValue: Error = new Error(faker.lorem.sentence())
-  result: boolean = true
-  isValid (email: string): boolean {
-    this.params = email
-    ++this.count
-    if (this.returnError) {
-      throw this.errorValue
-    }
-    if (this.returnNull) {
-      return null
-    }
-    if (this.returnFalse) {
-      return false
-    }
-    return this.result
-  }
 }
 
 const makeSut = (): SutTypes => {

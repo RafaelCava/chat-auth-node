@@ -1,4 +1,4 @@
-import { DatabaseConnectionError } from '@/infra/shared/erros/database-connection-error';
+import { DatabaseConnectionError } from '@/presentation/erros';
 import env from '@/main/config/env';
 import {createClient, RedisClientType, SetOptions} from 'redis';
 
