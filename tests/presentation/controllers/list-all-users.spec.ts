@@ -1,27 +1,8 @@
 import { ListAllUsersController } from "@/presentation/controllers"
 import { ValidationSpy } from "../mocks"
-import { ListAllUsersUseCase } from "@/domain/usecases"
-import { Spy } from "@/tests/shared/spy"
 import { faker } from "@faker-js/faker"
-import { makeUser } from "@/tests/domain/mocks"
 import { badRequest, ok, serverError } from "@/presentation/helpers/http-helper"
-
-class ListAllUsersUseCaseSpy implements ListAllUsersUseCase, Spy {
-  params: ListAllUsersUseCase.Params
-  count: number = 0
-  returnError: boolean = false
-  returnNull?: boolean = false
-  errorValue: Error = new Error(faker.lorem.sentence())
-  result: ListAllUsersUseCase.Result = [makeUser(), makeUser()]
-  async listAll (params: ListAllUsersUseCase.Params): Promise<ListAllUsersUseCase.Result> {
-    this.params = params
-    this.count++
-    if (this.returnError) {
-      throw this.errorValue
-    }
-    return this.returnNull ? [] : this.result
-  }
-}
+import { ListAllUsersUseCaseSpy } from "@/tests/domain/mocks"
 
 type SutTypes = {
   sut: ListAllUsersController
