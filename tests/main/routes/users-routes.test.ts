@@ -126,7 +126,7 @@ describe('Users Routes', () => {
       await request(app)
         .post('/api/users')
         .send(params)
-        .expect(500)
+        .expect(400)
         .expect({ error: 'User already exists' })
     })
   })

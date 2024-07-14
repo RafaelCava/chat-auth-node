@@ -1,6 +1,7 @@
 import { CreateUserUseCase } from "@/domain/usecases";
 import { badRequest, created, serverError } from "../helpers/http-helper";
 import { Controller, HttpResponse, Validation } from "../protocols";
+import { UserExistsError } from "../erros";
 
 export class CreateUserController implements Controller<CreateUserController.Request> {
   constructor(
@@ -18,6 +19,9 @@ export class CreateUserController implements Controller<CreateUserController.Req
       const user = await this.createUser.create({ name, email, password });
       return created(user);
     } catch (error) {
+      if (error instanceof UserExistsError) {
+        return badRequest(error);
+      }
       return serverError(error);
     }
   }

@@ -2,6 +2,7 @@ import { CreateUserController } from "@/presentation/controllers";
 import { badRequest, created, serverError } from "@/presentation/helpers/http-helper";
 import { CreateUserUseCaseSpy, makeCreateUserControllerRequest } from "@/tests/domain/mocks";
 import { ValidationSpy } from "../mocks";
+import { UserExistsError } from "@/presentation/erros";
 
 type SutTypes = {
   sut: CreateUserController;
@@ -70,5 +71,13 @@ describe('Create User Controller', () => {
     const { sut, createUserUseCaseSpy } = makeSut();
     const response = await sut.handle(makeCreateUserControllerRequest());
     expect(response).toEqual(created(createUserUseCaseSpy.result));
+  })
+
+  it('Should return 400 if CreateUserUseCase throws UserExistsError', async () => {
+    const { sut, createUserUseCaseSpy } = makeSut();
+    createUserUseCaseSpy.returnError = true;
+    createUserUseCaseSpy.errorValue = new UserExistsError()
+    const response = await sut.handle(makeCreateUserControllerRequest());
+    expect(response).toEqual(badRequest(createUserUseCaseSpy.errorValue));
   })
 });
