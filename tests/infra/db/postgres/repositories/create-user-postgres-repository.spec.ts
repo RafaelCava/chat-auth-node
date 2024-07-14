@@ -56,7 +56,10 @@ describe('CreateUserPostgresRepository', () => {
     const makeUser = new User(params)
     await sut.create(makeUser)
     expect(PostgresHelper.client.user.create).toHaveBeenCalledWith({
-      data: makeUser
+      data: {
+        ...makeUser,
+        id: expect.any(String)
+      }
     })
     expect(PostgresHelper.client.user.create).toHaveBeenCalledTimes(1)
   })

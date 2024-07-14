@@ -10,7 +10,6 @@ export default async (): Promise<Config> => {
     ],
     coverageDirectory: 'coverage',
     coverageProvider: 'babel',
-    testEnvironment: 'node',
     transform: {
       '.+\\.ts$': '@swc/jest'
     },
@@ -18,7 +17,6 @@ export default async (): Promise<Config> => {
       'default',
       ['jest-slow-test-reporter', { 'numTests': 5, 'warnOnSlowerThan': 300, 'color': true }]
     ],
-    // preset: '@shelf/jest-mongodb',
     moduleNameMapper: {
       '@/tests/(.*)': '<rootDir>/tests/$1',
       '@/(.*)': '<rootDir>/src/$1'
