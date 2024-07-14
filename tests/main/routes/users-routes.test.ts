@@ -130,4 +130,72 @@ describe('Users Routes', () => {
         .expect({ error: 'User already exists' })
     })
   })
+
+  describe('GET /users', () => {
+    it('Should return 200 on /users', async () => {
+      const params = {
+        email: faker.internet.email(),
+        name: faker.person.fullName(),
+        password: faker.internet.password()
+      }
+      const date = new Date()
+      await postgresClient.query('INSERT INTO "User" (id, email, name, password, "updatedAt", "createdAt") VALUES ($1, $2, $3, $4, $5, $6)', ['123123123', params.email, params.name, params.password, date, date])
+      await request(app)
+        .get('/api/users?page=1&limit=10')
+        .expect(200)
+        .expect((data) => {
+          expect(data.body).toHaveLength(1)
+          expect(data.body[0]).toHaveProperty('id', '123123123')
+          expect(data.body[0]).toHaveProperty('email', params.email)
+          expect(data.body[0]).toHaveProperty('name', params.name)
+          expect(data.body[0]).toHaveProperty('createdAt')
+          expect(data.body[0]).toHaveProperty('updatedAt')
+          expect(data.body[0]).not.toHaveProperty('password')
+        })
+    })
+
+    it('Should return 200 on /users with empty array', async () => {
+      await request(app)
+        .get('/api/users?page=1&limit=10')
+        .expect(200)
+        .expect((data) => {
+          expect(data.body).toHaveLength(0)
+        })
+    })
+
+    it('Should return 500 if usecase throw some error', async () => {
+      jest.spyOn(PostgresHelper.client.user, 'findMany').mockRejectedValueOnce(new Error())
+      await request(app)
+        .get('/api/users?page=1&limit=10')
+        .expect(500)
+    })
+
+    it('Should return badRequest if page not provided', async () => {
+      await request(app)
+        .get('/api/users?limit=10')
+        .expect(400)
+        .expect({ error: 'Missing param: page' })
+    })
+
+    it('Should return badRequest if limit not provided', async () => {
+      await request(app)
+        .get('/api/users?page=10')
+        .expect(400)
+        .expect({ error: 'Missing param: limit' })
+    })
+
+    it('Should return badRequest if page is not a number', async () => {
+      await request(app)
+        .get('/api/users?page=abc&limit=10')
+        .expect(400)
+        .expect({ error: 'Invalid param: page' })
+    })
+
+    it('Should return badRequest if limit is not a number', async () => {
+      await request(app)
+        .get('/api/users?page=1&limit=abc')
+        .expect(400)
+        .expect({ error: 'Invalid param: limit' })
+    })
+  })
 })
