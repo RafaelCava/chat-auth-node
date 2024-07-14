@@ -47,4 +47,15 @@ describe('ListAllUsersController', () => {
     expect(listAllUsersUseCaseSpy).toBeDefined()
     expect(validationSpy).toBeDefined()
   })
+
+  it('Should call Validation with correct values', async () => {
+    const { sut, validationSpy } = makeSut()
+    const request = {
+      limit: faker.number.int().toString(),
+      page: faker.number.int().toString()
+    }
+    await sut.handle(request)
+    expect(validationSpy.params).toEqual(request)
+    expect(validationSpy.count).toEqual(1)
+  })
 })
