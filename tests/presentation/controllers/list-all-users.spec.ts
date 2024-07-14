@@ -4,7 +4,7 @@ import { ListAllUsersUseCase } from "@/domain/usecases"
 import { Spy } from "@/tests/shared/spy"
 import { faker } from "@faker-js/faker"
 import { makeUser } from "@/tests/domain/mocks"
-import { badRequest, serverError } from "@/presentation/helpers/http-helper"
+import { badRequest, ok, serverError } from "@/presentation/helpers/http-helper"
 
 class ListAllUsersUseCaseSpy implements ListAllUsersUseCase, Spy {
   params: ListAllUsersUseCase.Params
@@ -19,7 +19,7 @@ class ListAllUsersUseCaseSpy implements ListAllUsersUseCase, Spy {
     if (this.returnError) {
       throw this.errorValue
     }
-    return this.returnNull ? null : this.result
+    return this.returnNull ? [] : this.result
   }
 }
 
@@ -93,5 +93,12 @@ describe('ListAllUsersController', () => {
     listAllUsersUseCaseSpy.returnError = true
     const response = await sut.handle({ limit: faker.number.int().toString(), page: faker.number.int().toString() })
     expect(response).toEqual(serverError(listAllUsersUseCaseSpy.errorValue))
+  })
+
+  it('Should return an empty list if ListAllUsersUseCase returns empty list', async () => {
+    const { sut, listAllUsersUseCaseSpy } = makeSut()
+    listAllUsersUseCaseSpy.returnNull = true
+    const response = await sut.handle({ limit: faker.number.int().toString(), page: faker.number.int().toString() })
+    expect(response).toEqual(ok([]))
   })
 })
