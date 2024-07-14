@@ -67,10 +67,24 @@ describe('ListAllUsersController', () => {
     expect(response).toEqual(badRequest(validationSpy.errorValue))
   })
 
-  it('should return server error if Validation throws', async () => {
+  it('Should return server error if Validation throws', async () => {
     const { sut, validationSpy } = makeSut()
     validationSpy.throwsError = true
     const response = await sut.handle({ limit: faker.number.int().toString(), page: faker.number.int().toString() })
     expect(response).toEqual(serverError(validationSpy.errorValue))
+  })
+
+  it('Should call ListAllUsersUseCase with correct values', async () => {
+    const { sut, listAllUsersUseCaseSpy, validationSpy } = makeSut()
+    const request: any = {
+      limit: faker.number.int().toString(),
+      page: faker.number.int().toString()
+    }
+    await sut.handle(request)
+    request.limit = Number(request.limit)
+    request.page = Number(request.page)
+    expect(listAllUsersUseCaseSpy.params).toEqual(request)
+    expect(listAllUsersUseCaseSpy.count).toEqual(1)
+    expect(validationSpy.count).toEqual(1)
   })
 })
