@@ -101,4 +101,10 @@ describe('ListAllUsersController', () => {
     const response = await sut.handle({ limit: faker.number.int().toString(), page: faker.number.int().toString() })
     expect(response).toEqual(ok([]))
   })
+
+  it('Should return ok with a list of users on success', async () => {
+    const { sut, listAllUsersUseCaseSpy } = makeSut()
+    const response = await sut.handle({ limit: faker.number.int().toString(), page: faker.number.int().toString() })
+    expect(response).toEqual(ok(listAllUsersUseCaseSpy.result))
+  })
 })
