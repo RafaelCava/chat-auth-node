@@ -4,6 +4,7 @@ import { ListAllUsersUseCase } from "@/domain/usecases"
 import { Spy } from "@/tests/shared/spy"
 import { faker } from "@faker-js/faker"
 import { makeUser } from "@/tests/domain/mocks"
+import { badRequest } from "@/presentation/helpers/http-helper"
 
 class ListAllUsersUseCaseSpy implements ListAllUsersUseCase, Spy {
   params: ListAllUsersUseCase.Params
@@ -57,5 +58,12 @@ describe('ListAllUsersController', () => {
     await sut.handle(request)
     expect(validationSpy.params).toEqual(request)
     expect(validationSpy.count).toEqual(1)
+  })
+
+  it('Should return badRequest if Validation returns an error', async () => {
+    const { sut, validationSpy } = makeSut()
+    validationSpy.returnError = true
+    const response = await sut.handle({ limit: faker.number.int().toString(), page: faker.number.int().toString() })
+    expect(response).toEqual(badRequest(validationSpy.errorValue))
   })
 })
