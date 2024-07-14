@@ -9,7 +9,7 @@ export class PostgresHelper {
   }
   static formateProjection (projection: string[]): Record<string, boolean> {
     const select = {}
-    projection.forEach(key => {
+    projection?.forEach(key => {
       select[key] = true
     })
     return select

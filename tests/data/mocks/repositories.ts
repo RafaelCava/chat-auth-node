@@ -1,7 +1,8 @@
 import { Spy } from '@/tests/shared/spy';
-import { CreateUserRepository, FindUserByEmailRepository } from '@/data/protocols';
+import { CreateUserRepository, FindUserByEmailRepository, FindUsersRepository } from '@/data/protocols';
 import { faker } from '@faker-js/faker';
 import { User } from '@/domain/entities';
+import { makeUser } from '@/tests/domain/mocks';
 
 export class FindUserByEmailRepositorySpy implements FindUserByEmailRepository, Spy {
   params: FindUserByEmailRepository.Params;
@@ -40,5 +41,22 @@ export class CreateUserRepositorySpy implements CreateUserRepository, Spy {
       password: params.password
     }, faker.string.uuid())
     return this.returnNull ? Promise.resolve(null) : Promise.resolve(this.result)
+  }
+}
+
+export class FindUsersRepositorySpy implements FindUsersRepository, Spy {
+  params: FindUsersRepository.Params;
+  count: number = 0;
+  returnError: boolean = false;
+  returnNull?: boolean = false;
+  errorValue: Error = new Error(faker.lorem.sentence());
+  result: FindUsersRepository.Result = [makeUser(), makeUser(), makeUser()];
+  async findAll(params: FindUsersRepository.Params): Promise<FindUsersRepository.Result> {
+    this.params = params
+    this.count++
+    if (this.returnError) {
+      throw this.errorValue
+    }
+    return await (this.returnNull ? Promise.resolve([]) : Promise.resolve(this.result))
   }
 }
