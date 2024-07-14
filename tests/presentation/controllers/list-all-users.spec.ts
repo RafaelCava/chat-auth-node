@@ -87,4 +87,11 @@ describe('ListAllUsersController', () => {
     expect(listAllUsersUseCaseSpy.count).toEqual(1)
     expect(validationSpy.count).toEqual(1)
   })
+
+  it('Should return serverError if ListAllUsersUseCase throws', async () => {
+    const { sut, listAllUsersUseCaseSpy } = makeSut()
+    listAllUsersUseCaseSpy.returnError = true
+    const response = await sut.handle({ limit: faker.number.int().toString(), page: faker.number.int().toString() })
+    expect(response).toEqual(serverError(listAllUsersUseCaseSpy.errorValue))
+  })
 })
