@@ -1,8 +1,8 @@
-export interface LoadUserByToken {
-  load: (params: LoadUserByToken.Params) => Promise<LoadUserByToken.Result>
+export interface LoadUserByTokenUseCase {
+  load: (params: LoadUserByTokenUseCase.Params) => Promise<LoadUserByTokenUseCase.Result>
 }
 
-export namespace LoadUserByToken {
+export namespace LoadUserByTokenUseCase {
   export type Params = {
     accessToken: string
     role?: string

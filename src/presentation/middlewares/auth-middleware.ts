@@ -1,11 +1,11 @@
-import { LoadUserByToken } from '@/domain/usecases'
+import { LoadUserByTokenUseCase } from '@/domain/usecases'
 import { AccessDeniedError } from '../erros'
 import { forbidden, ok, serverError } from '../helpers/http-helper'
 import { Middleware, HttpResponse } from '../protocols'
 
 export class AuthMiddleware implements Middleware {
   constructor (
-    private readonly loadUserByToken: LoadUserByToken,
+    private readonly loadUserByToken: LoadUserByTokenUseCase,
     private readonly role?: string
   ) {}
 
