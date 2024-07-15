@@ -60,4 +60,12 @@ describe('LoadUserByToken Usecase', () => {
     expect(findUserByIdRepositorySpy).toBeDefined()
     expect(sut).toBeDefined()
   })
+
+  it('Should call Decrypter with correct values', async () => {
+    const { decrypterSpy, sut } = makeSut()
+    const accessToken = faker.string.uuid()
+    await sut.load({ accessToken })
+    expect(decrypterSpy.params).toBe(accessToken)
+    expect(decrypterSpy.count).toBe(1)
+  })
 })
