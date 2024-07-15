@@ -103,4 +103,10 @@ describe('LoadUserByToken Usecase', () => {
     const user = await sut.load({ accessToken: faker.string.uuid() })
     expect(user).toBeNull()
   })
+
+  it('Should return a id on success', async () => {
+    const { sut, findUserByIdRepositorySpy } = makeSut()
+    const user = await sut.load({ accessToken: faker.string.uuid() })
+    expect(user).toEqual({ id: findUserByIdRepositorySpy.result.id })
+  })
 })
