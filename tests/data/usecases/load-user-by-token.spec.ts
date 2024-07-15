@@ -68,4 +68,11 @@ describe('LoadUserByToken Usecase', () => {
     expect(decrypterSpy.params).toBe(accessToken)
     expect(decrypterSpy.count).toBe(1)
   })
+
+  it('Should throw if Decrypter throws', async () => {
+    const { decrypterSpy, sut } = makeSut()
+    decrypterSpy.returnError = true
+    const promise = sut.load({ accessToken: faker.string.uuid() })
+    await expect(promise).rejects.toThrow(decrypterSpy.errorValue)
+  })
 })
