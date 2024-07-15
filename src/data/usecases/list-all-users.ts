@@ -1,5 +1,5 @@
 import { ListAllUsersUseCase } from "@/domain/usecases";
-import { FindUsersRepository } from "../protocols";
+import { FindUsersRepository } from "../protocols/db";
 
 export class ListAllUsers implements ListAllUsersUseCase {
   constructor (private readonly findUsersRepository: FindUsersRepository) {}
