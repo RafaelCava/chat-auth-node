@@ -23,12 +23,12 @@ export function created<T> (body: T): HttpResponse<T> {
     statusCode: 201
   }
 }
-// export const forbidden = (error: Error): HttpResponse<Error> => ({
-//   statusCode: 403,
-//   body: error
-// })
+export const forbidden = (error: Error): HttpResponse<Error> => ({
+  statusCode: 403,
+  body: error
+})
 
-// export const unauthorized = (error: Error): HttpResponse<Error> => ({
-//   statusCode: 401,
-//   body: error
-// })
+export const unauthorized = (error: Error): HttpResponse<Error> => ({
+  statusCode: 401,
+  body: error
+})
