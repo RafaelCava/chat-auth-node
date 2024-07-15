@@ -89,4 +89,11 @@ describe('LoadUserByToken Usecase', () => {
     const promise = sut.load({ accessToken: faker.string.uuid() })
     await expect(promise).rejects.toThrow(findUserByIdRepositorySpy.errorValue)
   })
+
+  it('Should return null if Decrypter returns null', async () => {
+    const { decrypterSpy, sut } = makeSut()
+    decrypterSpy.returnNull = true
+    const user = await sut.load({ accessToken: faker.string.uuid() })
+    expect(user).toBeNull()
+  })
 })
