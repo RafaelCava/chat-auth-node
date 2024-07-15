@@ -11,7 +11,7 @@ export class LoadUserByToken implements LoadUserByTokenUseCase {
   async load (params: LoadUserByTokenUseCase.Params): Promise<LoadUserByTokenUseCase.Result> {
     const claims = await this.decrypter.decrypt(params.accessToken)
     if (!claims) return null
-    const user = await this.findUserByIdRepository.findById({ id: claims.id })
+    const user = await this.findUserByIdRepository.findById({ id: claims.id, projection: ['id'] })
     if (!user) return null
     return {
       id: user.id

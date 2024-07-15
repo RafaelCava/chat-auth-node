@@ -75,4 +75,11 @@ describe('LoadUserByToken Usecase', () => {
     const promise = sut.load({ accessToken: faker.string.uuid() })
     await expect(promise).rejects.toThrow(decrypterSpy.errorValue)
   })
+
+  it('Should call FindUserByIdRepository with correct values', async () => {
+    const { decrypterSpy, findUserByIdRepositorySpy, sut } = makeSut()
+    await sut.load({ accessToken: faker.string.uuid() })
+    expect(findUserByIdRepositorySpy.params).toEqual({ id: decrypterSpy.result.id, projection: ['id'] })
+    expect(findUserByIdRepositorySpy.count).toBe(1)
+  })
 })
