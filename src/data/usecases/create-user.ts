@@ -1,11 +1,13 @@
-import { CreateUserRepository, FindUserByEmailRepository } from '@/data/protocols';
+import { CreateUserRepository, FindUserByEmailRepository } from '@/data/protocols/db';
 import { User } from '@/domain/entities';
 import { CreateUserUseCase } from "@/domain/usecases";
 import { UserExistsError } from '@/presentation/erros';
+import { Hasher } from '../protocols/criptography';
 
 export class CreateUser implements CreateUserUseCase {
   constructor(
     private readonly findUserByEmailRepository: FindUserByEmailRepository,
+    private readonly hasher: Hasher,
     private readonly createUserRepository: CreateUserRepository
   ) { }
   
@@ -14,7 +16,8 @@ export class CreateUser implements CreateUserUseCase {
     if (validateIfUserExists) {
       throw new UserExistsError()
     }
-    const userToCreate = new User(data)
+    const hashedPassword = await this.hasher.hash(data.password)
+    const userToCreate = new User({ ...data, password: hashedPassword })
     const user = await this.createUserRepository.create(userToCreate)
     delete user.password
     return user
