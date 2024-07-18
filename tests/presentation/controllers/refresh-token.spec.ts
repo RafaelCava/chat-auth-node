@@ -43,6 +43,7 @@ describe('RefreshToken Controller', () => {
     const request = { refreshToken: faker.string.alphanumeric(20) };
     await sut.handle({...request});
     expect(validationSpy.params).toEqual(request);
+    expect(validationSpy.count).toBe(1);
   })
 
   it('Should return serverError if Validation throws', async () => {
@@ -55,7 +56,7 @@ describe('RefreshToken Controller', () => {
   it('Should call RefreshTokenUseCase with correct values', async () => {
     const { sut, refreshTokenUseCaseSpy } = makeSut();
     const request = { refreshToken: faker.string.alphanumeric(20) };
-    await sut.handle(request);
+    await sut.handle({...request});
     expect(refreshTokenUseCaseSpy.params).toEqual(request);
     expect(refreshTokenUseCaseSpy.count).toBe(1);
   })
