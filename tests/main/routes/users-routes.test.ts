@@ -157,6 +157,14 @@ describe('Users Routes', () => {
         .expect({ error: 'Access denied' })
     })
 
+    it('Should return 500 if invalid token is provided', async () => {
+      await request(app)
+        .get('/api/users?page=1&limit=10')
+        .set('x-access-token', faker.string.alphanumeric(20))
+        .expect(500)
+        .expect({ error: 'jwt malformed' })
+    })
+
     it('Should return 200 on /users', async () => {
       const params = {
         email: faker.internet.email(),
