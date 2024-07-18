@@ -1,5 +1,5 @@
 import { Spy } from '@/tests/shared/spy';
-import { CreateUserRepository, FindUserByEmailRepository, FindUsersRepository } from '@/data/protocols/db';
+import { CreateUserRepository, FindUserByEmailRepository, FindUserByIdRepository, FindUsersRepository } from '@/data/protocols/db';
 import { faker } from '@faker-js/faker';
 import { User } from '@/domain/entities';
 import { makeUser } from '@/tests/domain/mocks';
@@ -58,5 +58,20 @@ export class FindUsersRepositorySpy implements FindUsersRepository, Spy {
       throw this.errorValue
     }
     return await (this.returnNull ? Promise.resolve([]) : Promise.resolve(this.result))
+  }
+}
+
+export class FindUserByIdRepositorySpy implements FindUserByIdRepository, Spy {
+  params: FindUserByIdRepository.Params
+  count: number = 0 
+  returnError: boolean = false
+  returnNull?: boolean = false
+  errorValue: Error = new Error(faker.lorem.sentence())
+  result: FindUserByIdRepository.Result = makeUser()
+  async findById (params: FindUserByIdRepository.Params): Promise<FindUserByIdRepository.Result> {
+    this.params = params
+    this.count++
+    if (this.returnError) throw this.errorValue
+    return await (this.returnNull ? Promise.resolve(null) : Promise.resolve(this.result))
   }
 }
