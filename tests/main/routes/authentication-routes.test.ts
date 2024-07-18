@@ -131,6 +131,19 @@ describe('Authentication Routes', () => {
             expect(data.body.error).toBe('Missing param: email')
           })
       })
+
+      it('Should return 400 if no password is provided', async () => {
+        await request(app)
+          .post('/api/auth/login')
+          .send({
+            email: faker.internet.email()
+          })
+          .expect(400)
+          .expect((data) => {
+            expect(data.body).toHaveProperty('error')
+            expect(data.body.error).toBe('Missing param: password')
+          })
+      })
     })
   })
 })
