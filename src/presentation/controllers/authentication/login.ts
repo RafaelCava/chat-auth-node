@@ -1,8 +1,8 @@
 import { TokenLogin } from "@/domain/models";
-import { Controller, HttpResponse, Validation } from "../protocols";
+import { Controller, HttpResponse, Validation } from "@/presentation/protocols";
 import { AuthenticationUseCase } from "@/domain/usecases";
-import { badRequest, ok, serverError, unauthorized } from "../helpers/http-helper";
-import { AccessDeniedError, UserNotExistsError } from "../erros";
+import { badRequest, ok, serverError, unauthorized } from "@/presentation/helpers/http-helper";
+import { AccessDeniedError, UserNotExistsError } from "@/presentation/erros";
 
 export class LoginController implements Controller {
   constructor(

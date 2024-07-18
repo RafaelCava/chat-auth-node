@@ -93,6 +93,9 @@ services:
       MONGO_DB: chat-auth
       DATABASE_URL: "postgresql://postgres-chat-auth:postgres-chat-auth@host.docker.internal:5432/chat-auth?schema=public"
       REDIS_URL: "redis://host.docker.internal:6379"
+      JWT_SECRET: "secret"
+      JWT_ISSUER: "chat-auth-node"
+      SALT_HASHER: 11
     networks:
       - chat-auth-node
       - observability
