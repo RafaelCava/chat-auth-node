@@ -144,6 +144,21 @@ describe('Authentication Routes', () => {
             expect(data.body.error).toBe('Missing param: password')
           })
       })
+
+      it('Should return 500 if some error occurs', async () => {
+        jest.spyOn(PostgresHelper.client.user, 'findUnique').mockImplementationOnce(() => { throw new Error('Some error') })
+        await request(app)
+          .post('/api/auth/login')
+          .send({
+            email: faker.internet.email(),
+            password: faker.internet.password()
+          })
+          .expect(500)
+          .expect((data) => {
+            expect(data.body).toHaveProperty('error')
+            expect(data.body.error).toBe('Some error')
+          })
+      })
     })
   })
 })
