@@ -1,34 +1,9 @@
 import { LoginController } from "@/presentation/controllers"
 import { ValidationSpy } from "../mocks"
-import { AuthenticationUseCase } from "@/domain/usecases"
-import { Spy } from "@/tests/shared/spy"
 import { faker } from "@faker-js/faker"
-import { badRequest, forbidden, ok, serverError } from "@/presentation/helpers/http-helper"
+import { badRequest, unauthorized, ok, serverError } from "@/presentation/helpers/http-helper"
 import { AccessDeniedError, UserNotExistsError } from "@/presentation/erros"
-
-class AuthenticationSpy implements AuthenticationUseCase, Spy {
-  params: AuthenticationUseCase.Params
-  count: number = 0
-  returnError: boolean = false
-  returnNull?: boolean = false
-  errorValue: Error = new Error(faker.lorem.sentence())
-  result: AuthenticationUseCase.Result = {
-    accessToken: faker.string.alphanumeric(20),
-    refreshToken: faker.string.alphanumeric(20)
-  }
-
-  async auth (params: AuthenticationUseCase.Params): Promise<AuthenticationUseCase.Result> {
-    this.params = params
-    this.count++
-    if (this.returnError) {
-      throw this.errorValue
-    }
-    if (this.returnNull) {
-      return Promise.resolve(null)
-    }
-    return Promise.resolve(this.result)  
-  }
-}
+import { AuthenticationSpy } from "@/tests/domain/mocks"
 
 type SutTypes = {
   sut: LoginController
@@ -118,7 +93,7 @@ describe('Login Controller', () => {
     expect(response).toEqual(ok(authenticationSpy.result))
   })
 
-  it('Should return forbidden if Authentication throws AccessDeniedError', async () => {
+  it('Should return unauthorized if Authentication throws AccessDeniedError', async () => {
     const { sut, authenticationSpy } = makeSut()
     authenticationSpy.returnError = true
     authenticationSpy.errorValue = new AccessDeniedError()
@@ -126,10 +101,10 @@ describe('Login Controller', () => {
       email: faker.internet.email(),
       password: faker.internet.password()
     })
-    expect(response).toEqual(forbidden(authenticationSpy.errorValue))
+    expect(response).toEqual(unauthorized(authenticationSpy.errorValue))
   })
 
-  it('Should return forbidden if Authentication throws UserNotExistsError', async () => {
+  it('Should return unauthorized if Authentication throws UserNotExistsError', async () => {
     const { sut, authenticationSpy } = makeSut()
     authenticationSpy.returnError = true
     authenticationSpy.errorValue = new UserNotExistsError()
@@ -137,6 +112,6 @@ describe('Login Controller', () => {
       email: faker.internet.email(),
       password: faker.internet.password()
     })
-    expect(response).toEqual(forbidden(authenticationSpy.errorValue))
+    expect(response).toEqual(unauthorized(authenticationSpy.errorValue))
   })
 })

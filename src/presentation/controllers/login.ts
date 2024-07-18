@@ -1,7 +1,7 @@
 import { TokenLogin } from "@/domain/models";
 import { Controller, HttpResponse, Validation } from "../protocols";
 import { AuthenticationUseCase } from "@/domain/usecases";
-import { badRequest, forbidden, ok, serverError } from "../helpers/http-helper";
+import { badRequest, ok, serverError, unauthorized } from "../helpers/http-helper";
 import { AccessDeniedError, UserNotExistsError } from "../erros";
 
 export class LoginController implements Controller {
@@ -20,7 +20,7 @@ export class LoginController implements Controller {
       return ok(tokenAuth)
     } catch (error) {
       if ([new AccessDeniedError().name, new UserNotExistsError().name].includes(error.name)) {
-        return forbidden(error)
+        return unauthorized(error)
       }
       return serverError(error)
     }
