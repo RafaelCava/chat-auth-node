@@ -150,6 +150,13 @@ describe('Users Routes', () => {
   })
 
   describe('GET /users', () => {
+    it('Should return 403 if no token is provided', async () => {
+      await request(app)
+        .get('/api/users?page=1&limit=10')
+        .expect(403)
+        .expect({ error: 'Access denied' })
+    })
+
     it('Should return 200 on /users', async () => {
       const params = {
         email: faker.internet.email(),
