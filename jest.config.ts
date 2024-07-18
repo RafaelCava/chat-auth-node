@@ -15,7 +15,7 @@ export default async (): Promise<Config> => {
     },
     reporters: [
       'default',
-      ['jest-slow-test-reporter', { 'numTests': 5, 'warnOnSlowerThan': 300, 'color': true }]
+      ['jest-slow-test-reporter', { 'numTests': 5, 'warnOnSlowerThan': 500, 'color': true }]
     ],
     moduleNameMapper: {
       '@/tests/(.*)': '<rootDir>/tests/$1',

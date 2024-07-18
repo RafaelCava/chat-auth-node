@@ -9,6 +9,7 @@ export class Authentication implements AuthenticationUseCase {
     private readonly encrypter: Encrypter
   ) {}
   async auth (params: AuthenticationUseCase.Params): Promise<AuthenticationUseCase.Result> {
+    await this.findUserByEmailRepository.findByEmail({email: params.email, projection: ['id', 'email', 'password']})
     return null
   }
 }
