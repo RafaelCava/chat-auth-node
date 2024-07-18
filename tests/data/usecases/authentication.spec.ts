@@ -80,4 +80,16 @@ describe('Authentication Usecase', () => {
     expect(hashComparerSpy.params).toEqual({value: params.password, hash: findUserByEmailRepositorySpy.result.password})
     expect(hashComparerSpy.count).toBe(1)
   })
+
+  it('Should throw if HashComparer throws', async () => {
+    const { sut, hashComparerSpy, encrypterSpy } = makeSut()
+    hashComparerSpy.returnError = true
+    const params = {
+      email: faker.internet.email(),
+      password: faker.internet.password()
+    }
+    const promise = sut.auth(params)
+    await expect(promise).rejects.toThrow()
+    expect(encrypterSpy.count).toBe(0)
+  })
 })
