@@ -1,6 +1,7 @@
 import { Encrypter, HashComparer } from '@/data/protocols/criptography';
 import { AuthenticationUseCase } from "@/domain/usecases";
 import { FindUserByEmailRepository } from "@/data/protocols/db";
+import { UserNotExistsError } from '@/presentation/erros';
 
 export class Authentication implements AuthenticationUseCase {
   constructor(
@@ -9,7 +10,10 @@ export class Authentication implements AuthenticationUseCase {
     private readonly encrypter: Encrypter
   ) {}
   async auth (params: AuthenticationUseCase.Params): Promise<AuthenticationUseCase.Result> {
-    await this.findUserByEmailRepository.findByEmail({email: params.email, projection: ['id', 'email', 'password']})
+    const user = await this.findUserByEmailRepository.findByEmail({email: params.email, projection: ['id', 'email', 'password']})
+    if(!user) {
+      throw new UserNotExistsError()
+    }
     return null
   }
 }

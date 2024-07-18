@@ -2,6 +2,7 @@ import { Authentication } from "@/data/usecases"
 import { FindUserByEmailRepositorySpy } from "../mocks/repositories"
 import { EncrypterSpy, HashComparerSpy } from "../mocks"
 import { faker } from "@faker-js/faker"
+import { UserNotExistsError } from "@/presentation/erros"
 
 type SutTypes = {
   findUserByEmailRepositorySpy: FindUserByEmailRepositorySpy
@@ -52,6 +53,19 @@ describe('Authentication Usecase', () => {
     }
     const promise = sut.auth(params)
     await expect(promise).rejects.toThrow()
+    expect(encrypterSpy.count).toBe(0)
+    expect(hashComparerSpy.count).toBe(0)
+  })
+
+  it('Should throw UserNotExistsError if FindUserByEmailRepository returns null', async () => {
+    const { sut, findUserByEmailRepositorySpy, encrypterSpy, hashComparerSpy } = makeSut()
+    const params = {
+      email: faker.internet.email(),
+      password: faker.internet.password()
+    }
+    findUserByEmailRepositorySpy.returnNull = true
+    const promise = sut.auth(params)
+    await expect(promise).rejects.toThrow(new UserNotExistsError())
     expect(encrypterSpy.count).toBe(0)
     expect(hashComparerSpy.count).toBe(0)
   })
