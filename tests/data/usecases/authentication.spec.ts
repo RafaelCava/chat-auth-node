@@ -115,4 +115,15 @@ describe('Authentication Usecase', () => {
     expect(encrypterSpy.params).toBe(findUserByEmailRepositorySpy.result.id)
     expect(encrypterSpy.count).toBe(1)
   })
+
+  it('Should throw if Encrypter throws', async () => {
+    const { sut, encrypterSpy } = makeSut()
+    encrypterSpy.returnError = true
+    const params = {
+      email: faker.internet.email(),
+      password: faker.internet.password()
+    }
+    const promise = sut.auth(params)
+    await expect(promise).rejects.toThrow(encrypterSpy.errorValue)
+  })
 })
