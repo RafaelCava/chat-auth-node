@@ -104,4 +104,15 @@ describe('Authentication Usecase', () => {
     await expect(promise).rejects.toThrow(new AccessDeniedError())
     expect(encrypterSpy.count).toBe(0)
   })
+
+  it('Should call Encrypter with correct value', async () => {
+    const { sut, encrypterSpy, findUserByEmailRepositorySpy } = makeSut()
+    const params = {
+      email: faker.internet.email(),
+      password: faker.internet.password()
+    }
+    await sut.auth(params)
+    expect(encrypterSpy.params).toBe(findUserByEmailRepositorySpy.result.id)
+    expect(encrypterSpy.count).toBe(1)
+  })
 })

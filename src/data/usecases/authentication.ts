@@ -18,6 +18,7 @@ export class Authentication implements AuthenticationUseCase {
     if (!isAuthenticated) {
       throw new AccessDeniedError()
     }
+    await this.encrypter.encrypt(user.id)
     return null
   }
 }
