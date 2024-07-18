@@ -11,7 +11,7 @@ export class FindUserByEmailRepositorySpy implements FindUserByEmailRepository, 
   throwError: boolean;
   returnNull?: boolean = false
   errorValue = new Error(faker.lorem.sentence())
-  result: FindUserByEmailRepository.Result = { id: faker.string.uuid() };
+  result: FindUserByEmailRepository.Result = { id: faker.string.uuid(), email: faker.internet.email(), password: faker.internet.password() };
   findByEmail(params: FindUserByEmailRepository.Params): Promise<FindUserByEmailRepository.Result> {
     this.params = params
     this.count++

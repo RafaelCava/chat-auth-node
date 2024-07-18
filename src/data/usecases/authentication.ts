@@ -14,6 +14,7 @@ export class Authentication implements AuthenticationUseCase {
     if(!user) {
       throw new UserNotExistsError()
     }
+    await this.hashComparer.compare(params.password, user.password)
     return null
   }
 }
