@@ -75,4 +75,18 @@ describe('RefreshToken Controller', () => {
     const result = await sut.handle({ refreshToken: faker.string.alphanumeric(20) });
     expect(result).toEqual(serverError(validationSpy.errorValue));
   })
+
+  it('Should call RefreshTokenUseCase with correct values', async () => {
+    const { sut, refreshTokenUseCaseSpy } = makeSut();
+    const request = { refreshToken: faker.string.alphanumeric(20) };
+    await sut.handle(request);
+    expect(refreshTokenUseCaseSpy.params).toEqual(request);
+  })
+
+  it('Should return serverError if RefreshTokenUseCase throws', async () => {
+    const { sut, refreshTokenUseCaseSpy } = makeSut();
+    refreshTokenUseCaseSpy.returnError = true;
+    const result = await sut.handle({ refreshToken: faker.string.alphanumeric(20) });
+    expect(result).toEqual(serverError(refreshTokenUseCaseSpy.errorValue));
+  })
 })
