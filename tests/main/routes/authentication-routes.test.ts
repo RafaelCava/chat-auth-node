@@ -90,6 +90,34 @@ describe('Authentication Routes', () => {
             expect(data.body.error).toBe('Access denied')
           })
       })
+
+      it('Should return 401 on /login if user not exists', async () => {
+        await request(app)
+          .post('/api/auth/login')
+          .send({
+            email: faker.internet.email(),
+            password: faker.internet.password()
+          })
+          .expect(401)
+          .expect((data) => {
+            expect(data.body).toHaveProperty('error')
+            expect(data.body.error).toBe('User not exists')
+          })
+      })
+
+      it('Should return 400 on /login if email is invalid', async () => {
+        await request(app)
+          .post('/api/auth/login')
+          .send({
+            email: faker.lorem.word(),
+            password: faker.internet.password()
+          })
+          .expect(400)
+          .expect((data) => {
+            expect(data.body).toHaveProperty('error')
+            expect(data.body.error).toBe('Invalid param: email')
+          })
+      })
     })
   })
 })
