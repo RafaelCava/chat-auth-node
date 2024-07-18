@@ -3,7 +3,8 @@ import { ValidationSpy } from "../mocks"
 import { AuthenticationUseCase } from "@/domain/usecases"
 import { Spy } from "@/tests/shared/spy"
 import { faker } from "@faker-js/faker"
-import { badRequest, ok, serverError } from "@/presentation/helpers/http-helper"
+import { badRequest, forbidden, ok, serverError } from "@/presentation/helpers/http-helper"
+import { AccessDeniedError, UserNotExistsError } from "@/presentation/erros"
 
 class AuthenticationSpy implements AuthenticationUseCase, Spy {
   params: AuthenticationUseCase.Params
@@ -115,5 +116,27 @@ describe('Login Controller', () => {
       password: faker.internet.password()
     })
     expect(response).toEqual(ok(authenticationSpy.result))
+  })
+
+  it('Should return forbidden if Authentication throws AccessDeniedError', async () => {
+    const { sut, authenticationSpy } = makeSut()
+    authenticationSpy.returnError = true
+    authenticationSpy.errorValue = new AccessDeniedError()
+    const response = await sut.handle({
+      email: faker.internet.email(),
+      password: faker.internet.password()
+    })
+    expect(response).toEqual(forbidden(authenticationSpy.errorValue))
+  })
+
+  it('Should return forbidden if Authentication throws UserNotExistsError', async () => {
+    const { sut, authenticationSpy } = makeSut()
+    authenticationSpy.returnError = true
+    authenticationSpy.errorValue = new UserNotExistsError()
+    const response = await sut.handle({
+      email: faker.internet.email(),
+      password: faker.internet.password()
+    })
+    expect(response).toEqual(forbidden(authenticationSpy.errorValue))
   })
 })

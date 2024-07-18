@@ -1,7 +1,8 @@
 import { TokenLogin } from "@/domain/models";
 import { Controller, HttpResponse, Validation } from "../protocols";
 import { AuthenticationUseCase } from "@/domain/usecases";
-import { badRequest, ok, serverError } from "../helpers/http-helper";
+import { badRequest, forbidden, ok, serverError } from "../helpers/http-helper";
+import { AccessDeniedError, UserNotExistsError } from "../erros";
 
 export class LoginController implements Controller {
   constructor(
@@ -18,6 +19,9 @@ export class LoginController implements Controller {
       const tokenAuth = await this.authentication.auth(request)
       return ok(tokenAuth)
     } catch (error) {
+      if ([new AccessDeniedError().name, new UserNotExistsError().name].includes(error.name)) {
+        return forbidden(error)
+      }
       return serverError(error)
     }
   }

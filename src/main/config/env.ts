@@ -6,4 +6,5 @@ export default {
   redisUrl: process.env.REDIS_URL || 'redis://localhost:6379',
   jwtSecret: process.env.JWT_SECRET || 'secret',
   jwtIssuer: process.env.JWT_ISSUER || 'issuer',
+  saltHasher: Number(process.env.SALT_HASHER) || 11,
 }
