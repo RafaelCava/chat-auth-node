@@ -1,5 +1,5 @@
 import { Spy } from '@/tests/shared/spy';
-import { CreateUserRepository, FindUserByEmailRepository, FindUsersRepository } from '@/data/protocols';
+import { CreateUserRepository, FindUserByEmailRepository, FindUsersRepository } from '@/data/protocols/db';
 import { faker } from '@faker-js/faker';
 import { User } from '@/domain/entities';
 import { makeUser } from '@/tests/domain/mocks';
