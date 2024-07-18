@@ -3,6 +3,7 @@ import { ValidationSpy } from "../mocks"
 import { AuthenticationUseCase } from "@/domain/usecases"
 import { Spy } from "@/tests/shared/spy"
 import { faker } from "@faker-js/faker"
+import { badRequest } from "@/presentation/helpers/http-helper"
 
 class AuthenticationSpy implements AuthenticationUseCase, Spy {
   params: AuthenticationUseCase.Params
@@ -62,5 +63,16 @@ describe('Login Controller', () => {
     await sut.handle(request)
     expect(validationSpy.params).toEqual(request)
     expect(validationSpy.count).toBe(1)
+  })
+
+  it('Should return badRequest if Validation returns an error', async () => {
+    const { sut, validationSpy, authenticationSpy } = makeSut()
+    validationSpy.returnError = true
+    const response = await sut.handle({
+      email: faker.internet.email(),
+      password: faker.internet.password()
+    })
+    expect(response).toEqual(badRequest(validationSpy.errorValue))
+    expect(authenticationSpy.count).toBe(0)
   })
 })
