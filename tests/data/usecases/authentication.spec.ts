@@ -42,4 +42,17 @@ describe('Authentication Usecase', () => {
     expect(findUserByEmailRepositorySpy.params).toEqual({email: params.email, projection: ['id', 'email', 'password']})
     expect(findUserByEmailRepositorySpy.count).toBe(1)
   })
+
+  it('Should throw if FindUserByEmailRepository throws', async () => {
+    const { sut, findUserByEmailRepositorySpy, encrypterSpy, hashComparerSpy } = makeSut()
+    findUserByEmailRepositorySpy.throwError = true
+    const params = {
+      email: faker.internet.email(),
+      password: faker.internet.password()
+    }
+    const promise = sut.auth(params)
+    await expect(promise).rejects.toThrow()
+    expect(encrypterSpy.count).toBe(0)
+    expect(hashComparerSpy.count).toBe(0)
+  })
 })
