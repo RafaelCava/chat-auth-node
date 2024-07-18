@@ -1,7 +1,7 @@
 import { Encrypter, HashComparer } from '@/data/protocols/criptography';
 import { AuthenticationUseCase } from "@/domain/usecases";
 import { FindUserByEmailRepository } from "@/data/protocols/db";
-import { UserNotExistsError } from '@/presentation/erros';
+import { AccessDeniedError, UserNotExistsError } from '@/presentation/erros';
 
 export class Authentication implements AuthenticationUseCase {
   constructor(
@@ -14,7 +14,10 @@ export class Authentication implements AuthenticationUseCase {
     if(!user) {
       throw new UserNotExistsError()
     }
-    await this.hashComparer.compare(params.password, user.password)
+    const isAuthenticated = await this.hashComparer.compare(params.password, user.password)
+    if (!isAuthenticated) {
+      throw new AccessDeniedError()
+    }
     return null
   }
 }

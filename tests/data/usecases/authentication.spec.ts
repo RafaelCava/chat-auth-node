@@ -2,7 +2,7 @@ import { Authentication } from "@/data/usecases"
 import { FindUserByEmailRepositorySpy } from "../mocks/repositories"
 import { EncrypterSpy, HashComparerSpy } from "../mocks"
 import { faker } from "@faker-js/faker"
-import { UserNotExistsError } from "@/presentation/erros"
+import { AccessDeniedError, UserNotExistsError } from "@/presentation/erros"
 
 type SutTypes = {
   findUserByEmailRepositorySpy: FindUserByEmailRepositorySpy
@@ -90,6 +90,18 @@ describe('Authentication Usecase', () => {
     }
     const promise = sut.auth(params)
     await expect(promise).rejects.toThrow()
+    expect(encrypterSpy.count).toBe(0)
+  })
+
+  it('Should throw AccessDeniedError if HashComparer returns false', async () => {
+    const { sut, hashComparerSpy, encrypterSpy } = makeSut()
+    hashComparerSpy.result = false
+    const params = {
+      email: faker.internet.email(),
+      password: faker.internet.password()
+    }
+    const promise = sut.auth(params)
+    await expect(promise).rejects.toThrow(new AccessDeniedError())
     expect(encrypterSpy.count).toBe(0)
   })
 })
