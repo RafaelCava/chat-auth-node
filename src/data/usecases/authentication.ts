@@ -18,7 +18,11 @@ export class Authentication implements AuthenticationUseCase {
     if (!isAuthenticated) {
       throw new AccessDeniedError()
     }
-    await this.encrypter.encrypt(user.id)
-    return null
+    const accessToken = await this.encrypter.encrypt(user.id, '3h')
+    const refreshToken = await this.encrypter.encrypt(user.id, '2d')
+    return {
+      accessToken,
+      refreshToken
+    }
   }
 }

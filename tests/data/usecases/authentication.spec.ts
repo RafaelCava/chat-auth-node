@@ -112,8 +112,8 @@ describe('Authentication Usecase', () => {
       password: faker.internet.password()
     }
     await sut.auth(params)
-    expect(encrypterSpy.params).toBe(findUserByEmailRepositorySpy.result.id)
-    expect(encrypterSpy.count).toBe(1)
+    expect(encrypterSpy.params).toEqual({value: findUserByEmailRepositorySpy.result.id, expiresIn: '2d'})
+    expect(encrypterSpy.count).toBe(2)
   })
 
   it('Should throw if Encrypter throws', async () => {
@@ -125,5 +125,15 @@ describe('Authentication Usecase', () => {
     }
     const promise = sut.auth(params)
     await expect(promise).rejects.toThrow(encrypterSpy.errorValue)
+  })
+
+  it('Should return TokenLogin on success', async () => {
+    const { sut, encrypterSpy } = makeSut()
+    const params = {
+      email: faker.internet.email(),
+      password: faker.internet.password()
+    }
+    const result = await sut.auth(params)
+    expect(result).toEqual({accessToken: encrypterSpy.result, refreshToken: encrypterSpy.result})
   })
 })
