@@ -1,4 +1,4 @@
-import { FindUsersRepository } from "@/data/protocols";
+import { FindUsersRepository } from "@/data/protocols/db";
 import { PostgresHelper } from "../helpers/postgres-helper";
 
 export class FindUsersPostgresRepository implements FindUsersRepository {

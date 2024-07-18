@@ -1,4 +1,4 @@
-import { CreateUserRepository } from "@/data/protocols";
+import { CreateUserRepository } from "@/data/protocols/db";
 import { PostgresHelper } from "../helpers/postgres-helper";
 import {v4 as uuidV4} from 'uuid';
 import { User } from "@/domain/entities";
