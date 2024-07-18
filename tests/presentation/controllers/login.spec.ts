@@ -75,4 +75,15 @@ describe('Login Controller', () => {
     expect(response).toEqual(badRequest(validationSpy.errorValue))
     expect(authenticationSpy.count).toBe(0)
   })
+
+  it('Should call Authentication with correct values', async () => {
+    const { sut, authenticationSpy } = makeSut()
+    const request = {
+      email: faker.internet.email(),
+      password: faker.internet.password()
+    }
+    await sut.handle(request)
+    expect(authenticationSpy.params).toEqual(request)
+    expect(authenticationSpy.count).toBe(1)
+  })
 })
