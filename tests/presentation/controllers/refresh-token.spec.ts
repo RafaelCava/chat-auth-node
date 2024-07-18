@@ -3,7 +3,7 @@ import { ValidationSpy } from '../mocks';
 import { RefreshTokenUseCase } from '@/domain/usecases';
 import { Spy } from '@/tests/shared/spy';
 import { faker } from '@faker-js/faker';
-import { badRequest } from '@/presentation/helpers/http-helper';
+import { badRequest, serverError } from '@/presentation/helpers/http-helper';
 
 class RefreshTokenUseCaseSpy implements RefreshTokenUseCase, Spy {
   params: RefreshTokenController.Request;
@@ -67,5 +67,12 @@ describe('RefreshToken Controller', () => {
     const request = { refreshToken: faker.string.alphanumeric(20) };
     await sut.handle(request);
     expect(validationSpy.params).toEqual(request);
+  })
+
+  it('Should return serverError if Validation throws', async () => {
+    const { sut, validationSpy } = makeSut();
+    validationSpy.throwsError = true;
+    const result = await sut.handle({ refreshToken: faker.string.alphanumeric(20) });
+    expect(result).toEqual(serverError(validationSpy.errorValue));
   })
 })
