@@ -16,6 +16,7 @@ describe('Authentication Routes', () => {
   let app: Express
   let postgresContainer: StartedPostgreSqlContainer;
   let postgresClient: Client;
+  jest.setTimeout(30000)
 
   const makeUserPostgres = async (user: User) => {
     const hasherAdapter = new BcryptAdapter(env.saltHasher)

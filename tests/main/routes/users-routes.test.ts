@@ -16,6 +16,7 @@ describe('Users Routes', () => {
   let postgresContainer: StartedPostgreSqlContainer;
   let postgresClient: Client;
   const encrypterAdapter = new JwtAdapter(env.jwtSecret, env.jwtIssuer)
+  jest.setTimeout(30000)
 
   const makeToken = async () => {
     const params = {
