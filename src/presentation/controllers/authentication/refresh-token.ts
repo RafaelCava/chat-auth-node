@@ -1,6 +1,7 @@
 import { TokenLogin } from "@/domain/models";
 import { RefreshTokenUseCase } from "@/domain/usecases";
-import { badRequest, ok, serverError } from "@/presentation/helpers/http-helper";
+import { AccessDeniedError } from "@/presentation/erros";
+import { badRequest, forbidden, ok, serverError } from "@/presentation/helpers/http-helper";
 import { Controller, HttpResponse, Validation } from "@/presentation/protocols";
 
 export class RefreshTokenController implements Controller {
@@ -18,6 +19,9 @@ export class RefreshTokenController implements Controller {
       const tokenAuth = await this.refreshTokenUseCase.refreshToken(request)
       return ok(tokenAuth)
     } catch (error) {
+      if (error instanceof AccessDeniedError) {
+        return forbidden(error)
+      }
       return serverError(error)
     }
   }

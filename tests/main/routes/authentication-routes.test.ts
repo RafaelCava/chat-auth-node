@@ -196,6 +196,39 @@ describe('Authentication Routes', () => {
             expect(data.body.error).toBe('Missing param: refreshToken')
           })
       })
+
+      it('Should return 400 if refreshToken is bad format', async () => {
+        await request(app)
+          .get('/api/auth/refresh?refreshToken=' + faker.lorem.word())
+          .expect(400)
+          .expect((data) => {
+            expect(data.body).toHaveProperty('error')
+            expect(data.body.error).toBe('Invalid param: refreshToken')
+          })
+      })
+
+      it('Should return 401 if refreshToken is invalid', async () => {
+        await request(app)
+          .get('/api/auth/refresh?refreshToken=' + await makeToken())
+          .expect(403)
+          .expect((data) => {
+            expect(data.body).toHaveProperty('error')
+            expect(data.body.error).toBe('Access denied')
+          })
+      })
+
+      it('Should return 500 if some error occurs', async () => {
+        const errorValue = faker.lorem.sentence()
+        jest.spyOn(PostgresHelper.client.user, 'findFirst').mockImplementationOnce(() => { throw new Error(errorValue) })
+        const response = await makeToken()
+        await request(app)
+          .get('/api/auth/refresh?refreshToken=' + response)
+          .expect(500)
+          .expect((data) => {
+            expect(data.body).toHaveProperty('error')
+            expect(data.body.error).toBe(errorValue)
+          })
+      })
     })
   })
 })

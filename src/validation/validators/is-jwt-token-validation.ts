@@ -9,9 +9,13 @@ export class IsJwtTokenValidation implements Validation {
     private readonly jwtTokenValidator: JwtTokenValidator
   ) {}
   async validate (input: any): Promise<Error> {
-    if (!this.jwtTokenValidator.isJwt(input[this.fieldName])) {
+    try {
+      if (!this.jwtTokenValidator.isJwt(input[this.fieldName])) {
+        return await Promise.reject(new InvalidParamError(this.fieldName))
+      }
+      return await Promise.resolve(null)
+    } catch (error) {
       return await Promise.reject(new InvalidParamError(this.fieldName))
     }
-    return await Promise.resolve(null)
   }
 }

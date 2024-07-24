@@ -10,7 +10,7 @@ export class JwtAdapter implements Encrypter, Decrypter, JwtTokenValidator {
 
   isJwt (token: string): boolean {
     try {
-      jwt.decode(token)
+      jwt.verify(token, this.secret, { issuer: this.issuer })
       return true
     } catch (error) {
       return false
