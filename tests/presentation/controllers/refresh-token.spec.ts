@@ -1,8 +1,9 @@
 import { RefreshTokenController } from '@/presentation/controllers/authentication';
 import { ValidationSpy } from '../mocks';
 import { faker } from '@faker-js/faker';
-import { badRequest, ok, serverError } from '@/presentation/helpers/http-helper';
+import { badRequest, forbidden, ok, serverError } from '@/presentation/helpers/http-helper';
 import { RefreshTokenUseCaseSpy } from '@/tests/domain/mocks';
+import { AccessDeniedError } from '@/presentation/erros';
 
 type SutTypes = {
   sut: RefreshTokenController
@@ -66,6 +67,14 @@ describe('RefreshToken Controller', () => {
     refreshTokenUseCaseSpy.returnError = true;
     const result = await sut.handle({ refreshToken: faker.string.alphanumeric(20) });
     expect(result).toEqual(serverError(refreshTokenUseCaseSpy.errorValue));
+  })
+
+  it('Should return forbidden if RefreshTokenUseCase throws accessDeniedError', async () => {
+    const { sut, refreshTokenUseCaseSpy } = makeSut();
+    refreshTokenUseCaseSpy.returnError = true;
+    refreshTokenUseCaseSpy.errorValue = new AccessDeniedError()
+    const result = await sut.handle({ refreshToken: faker.string.alphanumeric(20) });
+    expect(result).toEqual(forbidden(refreshTokenUseCaseSpy.errorValue));
   })
 
   it('Should return ok on success', async () => {
