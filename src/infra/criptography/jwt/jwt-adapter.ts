@@ -1,11 +1,21 @@
 import { Encrypter } from '@/data/protocols/criptography/encrypter'
 import jwt from 'jsonwebtoken'
 import { Decrypter } from '@/data/protocols/criptography/decrypter'
-export class JwtAdapter implements Encrypter, Decrypter {
+import { JwtTokenValidator } from '@/validation/protocols'
+export class JwtAdapter implements Encrypter, Decrypter, JwtTokenValidator {
   constructor (
     private readonly secret: string,
     private readonly issuer: string
   ) {}
+
+  isJwt (token: string): boolean {
+    try {
+      jwt.decode(token)
+      return true
+    } catch (error) {
+      return false
+    }
+  }
 
   /**
    * Function to generate a jwt token
