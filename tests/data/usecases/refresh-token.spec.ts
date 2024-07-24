@@ -71,7 +71,7 @@ describe('Refresh Token Use Case', () => {
     await sut.refreshToken({
       refreshToken: mockToken
     })
-    expect(findUserByIdRepository.params).toEqual({id: decrypterSpy.result.id })
+    expect(findUserByIdRepository.params).toEqual({id: decrypterSpy.result.id, projection: ['id'] })
     expect(findUserByIdRepository.count).toBe(1)
   })
 

@@ -15,7 +15,7 @@ export class RefreshToken implements RefreshTokenUseCase {
     if (!claims) {
       throw new AccessDeniedError();
     }
-    const user = await this.findUserByIdRepository.findById({ id: claims.id });
+    const user = await this.findUserByIdRepository.findById({ id: claims.id, projection: ['id'] });
     if (!user) {
       throw new AccessDeniedError();
     }

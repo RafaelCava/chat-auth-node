@@ -10,6 +10,7 @@ import { BcryptAdapter } from '@/infra/criptography/bcrypt/bcrypt-adapter';
 import env from '@/main/config/env';
 import { faker } from '@faker-js/faker';
 import request from 'supertest';
+import { JwtAdapter } from '@/infra/criptography/jwt/jwt-adapter';
 
 
 describe('Authentication Routes', () => {
@@ -23,6 +24,12 @@ describe('Authentication Routes', () => {
     const hashPassword = await hasherAdapter.hash(user.password)
     const userRow = await postgresClient.query(`INSERT INTO "User" (id, email, name, password, "createdAt", "updatedAt") VALUES ('${user.id}', '${user.email}', '${user.name}', '${hashPassword}', '${user.createdAt.toISOString()}', '${user.updatedAt.toISOString()}')`)
     return userRow
+  }
+
+  const makeToken = async (userId: string = faker.string.uuid()) => {
+    const encrypterAdapter = new JwtAdapter(env.jwtSecret, env.jwtIssuer)
+    const token = encrypterAdapter.encrypt(userId)
+    return token
   }
 
   beforeAll(async () => {
@@ -158,6 +165,35 @@ describe('Authentication Routes', () => {
           .expect((data) => {
             expect(data.body).toHaveProperty('error')
             expect(data.body.error).toBe('Some error')
+          })
+      })
+    })
+    describe('GET /refresh', () => {
+      it('Should return 200 on /refresh with new refreshToken and accessToken', async () => {
+        const id = faker.string.uuid()
+        const user = new User({
+          email: faker.internet.email(),
+          name: faker.person.fullName(),
+          password: faker.internet.password()
+        }, id)
+        await makeUserPostgres(user)
+        const response = await makeToken(id)
+        await request(app)
+          .get('/api/auth/refresh?refreshToken=' + response)
+          .expect(200)
+          .expect((data) => {
+            expect(data.body).toHaveProperty('accessToken')
+            expect(data.body).toHaveProperty('refreshToken')
+          })
+      })
+
+      it('Should return 400 if no refreshToken is provided', async () => {
+        await request(app)
+          .get('/api/auth/refresh')
+          .expect(400)
+          .expect((data) => {
+            expect(data.body).toHaveProperty('error')
+            expect(data.body.error).toBe('Missing param: refreshToken')
           })
       })
     })
