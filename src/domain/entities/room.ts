@@ -1,3 +1,4 @@
+import {v4 as uuidV4} from 'uuid';
 export class Room {
   public readonly id: string;
   public name: string;
@@ -9,7 +10,7 @@ export class Room {
   constructor(props: Omit<Room, 'id' | 'createdAt' | 'updatedAt'>, id?: string) {
     Object.assign(this, props);
 
-    this.id = id || '';
+    this.id = id || uuidV4();
     this.createdAt = new Date();
     this.updatedAt = new Date();
   }
