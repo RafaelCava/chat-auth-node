@@ -1,6 +1,6 @@
 import { Room } from "@/domain/entities";
 import { Controller, HttpResponse, Validation } from "../protocols";
-import { badRequest, created, serverError } from "../helpers/http-helper";
+import { badRequest, conflict, created, serverError } from "../helpers/http-helper";
 import { CreateRoomUseCase } from "@/domain/usecases";
 import { RoomNameAlreadyInUseError } from "../erros";
 
@@ -23,7 +23,7 @@ export class CreateRoomController implements Controller<CreateRoomController.Req
       return created(room)
     } catch (error) {
       if (error instanceof RoomNameAlreadyInUseError) {
-        return badRequest(error)
+        return conflict(error)
       }
       return serverError(error)
     }
