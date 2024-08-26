@@ -85,4 +85,11 @@ describe('CreateRoom', () => {
     expect(findRoomByNameRepositorySpy.count).toBe(1)
     expect(findRoomByNameRepositorySpy.params).toEqual({ name: params.name, projection: ['id'] })
   })
+
+  it('Should throw if FindRoomByNameRepository throws', async () => {
+    const {findRoomByNameRepositorySpy, sut } = makeSut()
+    findRoomByNameRepositorySpy.returnError = true
+    const promise = sut.create(makeParams())
+    await expect(promise).rejects.toThrow(findRoomByNameRepositorySpy.errorValue)
+  })
 });
