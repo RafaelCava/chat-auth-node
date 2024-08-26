@@ -63,11 +63,26 @@ const makeSut = (): SutTypes => {
   }
 }
 
+const makeParams = () => ({
+  name: faker.lorem.word(),
+  description: faker.lorem.sentence(3),
+  ownerId: faker.string.uuid()
+})
+
 describe('CreateRoom', () => {
   it('Should be defined', () => {
     const { createRoomRepositorySpy, findRoomByNameRepositorySpy, sut } = makeSut()
     expect(sut).toBeDefined()
     expect(createRoomRepositorySpy).toBeDefined()
     expect(findRoomByNameRepositorySpy).toBeDefined()
+  })
+
+  it('Should call FindRoomByNameRepository with correct values', async () => {
+    const {findRoomByNameRepositorySpy, sut } = makeSut()
+    findRoomByNameRepositorySpy.returnNull = true
+    const params = makeParams()
+    await sut.create(params)
+    expect(findRoomByNameRepositorySpy.count).toBe(1)
+    expect(findRoomByNameRepositorySpy.params).toEqual({ name: params.name, projection: ['id'] })
   })
 });
