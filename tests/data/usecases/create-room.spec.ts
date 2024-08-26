@@ -122,5 +122,12 @@ describe('CreateRoom', () => {
       const promise = sut.create(makeParams())
       await expect(promise).rejects.toThrow(createRoomRepositorySpy.errorValue)
     })
+
+    it('Should return a room on success', async () => {
+      const {createRoomRepositorySpy, sut, findRoomByNameRepositorySpy } = makeSut()
+      findRoomByNameRepositorySpy.returnNull = true
+      const result = await sut.create(makeParams())
+      expect(result).toEqual(createRoomRepositorySpy.result)
+    })
   })
 });
