@@ -4,6 +4,7 @@ import { Spy } from "@/tests/shared/spy";
 import { faker } from "@faker-js/faker";
 import { makeRoom } from "@/tests/domain/mocks";
 import { Room } from "@/domain/entities";
+import { RoomNameAlreadyInUseError } from "@/presentation/erros";
 
 class FindRoomByNameRepositorySpy implements FindRoomByNameRepository, Spy {
   params: FindRoomByNameRepository.Params;
@@ -91,5 +92,11 @@ describe('CreateRoom', () => {
     findRoomByNameRepositorySpy.returnError = true
     const promise = sut.create(makeParams())
     await expect(promise).rejects.toThrow(findRoomByNameRepositorySpy.errorValue)
+  })
+
+  it('Should throw if FindRoomByNameRepository returns a room', async () => {
+    const {findRoomByNameRepositorySpy, sut } = makeSut()
+    const promise = sut.create(makeParams())
+    await expect(promise).rejects.toThrow(new RoomNameAlreadyInUseError())
   })
 });
