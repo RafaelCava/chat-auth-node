@@ -78,25 +78,41 @@ describe('CreateRoom', () => {
     expect(findRoomByNameRepositorySpy).toBeDefined()
   })
 
-  it('Should call FindRoomByNameRepository with correct values', async () => {
-    const {findRoomByNameRepositorySpy, sut } = makeSut()
-    findRoomByNameRepositorySpy.returnNull = true
-    const params = makeParams()
-    await sut.create(params)
-    expect(findRoomByNameRepositorySpy.count).toBe(1)
-    expect(findRoomByNameRepositorySpy.params).toEqual({ name: params.name, projection: ['id'] })
+  describe("FindRoomByNameRepository", () => {
+
+    it('Should call FindRoomByNameRepository with correct values', async () => {
+      const {findRoomByNameRepositorySpy, sut } = makeSut()
+      findRoomByNameRepositorySpy.returnNull = true
+      const params = makeParams()
+      await sut.create(params)
+      expect(findRoomByNameRepositorySpy.count).toBe(1)
+      expect(findRoomByNameRepositorySpy.params).toEqual({ name: params.name, projection: ['id'] })
+    })
+  
+    it('Should throw if FindRoomByNameRepository throws', async () => {
+      const {findRoomByNameRepositorySpy, sut, createRoomRepositorySpy } = makeSut()
+      findRoomByNameRepositorySpy.returnError = true
+      const promise = sut.create(makeParams())
+      await expect(promise).rejects.toThrow(findRoomByNameRepositorySpy.errorValue)
+      expect(createRoomRepositorySpy.count).toBe(0)
+    })
+  
+    it('Should throw if FindRoomByNameRepository returns a room', async () => {
+      const { sut, createRoomRepositorySpy } = makeSut()
+      const promise = sut.create(makeParams())
+      await expect(promise).rejects.toThrow(new RoomNameAlreadyInUseError())
+      expect(createRoomRepositorySpy.count).toBe(0)
+    })
   })
 
-  it('Should throw if FindRoomByNameRepository throws', async () => {
-    const {findRoomByNameRepositorySpy, sut } = makeSut()
-    findRoomByNameRepositorySpy.returnError = true
-    const promise = sut.create(makeParams())
-    await expect(promise).rejects.toThrow(findRoomByNameRepositorySpy.errorValue)
-  })
-
-  it('Should throw if FindRoomByNameRepository returns a room', async () => {
-    const {findRoomByNameRepositorySpy, sut } = makeSut()
-    const promise = sut.create(makeParams())
-    await expect(promise).rejects.toThrow(new RoomNameAlreadyInUseError())
+  describe('CreateRoomRepository', () => {
+    it('Should call CreateRoomRepository with correct values', async () => {
+      const {createRoomRepositorySpy, sut, findRoomByNameRepositorySpy } = makeSut()
+      findRoomByNameRepositorySpy.returnNull = true
+      const params = makeParams()
+      await sut.create(params)
+      expect(createRoomRepositorySpy.count).toBe(1)
+      expect(createRoomRepositorySpy.params).toEqual({...new Room(params), id: expect.any(String)})
+    })
   })
 });
