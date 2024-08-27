@@ -75,4 +75,10 @@ describe('ListAllRoomsUseCase', () => {
     const result = await sut.listAll(makeRequest())
     expect(result).toEqual([])
   })
+
+  it('Should return a list of rooms on success', async () => {
+    const { findRoomsRepositorySpy, sut } = makeSut()
+    const result = await sut.listAll(makeRequest())
+    expect(result).toEqual(findRoomsRepositorySpy.result)
+  })
 })
