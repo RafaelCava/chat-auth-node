@@ -61,4 +61,11 @@ describe('ListAllRoomsUseCase', () => {
     expect(findRoomsRepositorySpy.count).toBe(1)
     expect(findRoomsRepositorySpy.params).toEqual(params)
   })
+
+  it('Should throw if FindRoomsRepository throws', async () => {
+    const { findRoomsRepositorySpy, sut } = makeSut()
+    findRoomsRepositorySpy.returnError = true
+    const promise = sut.listAll(makeRequest())
+    await expect(promise).rejects.toThrow(findRoomsRepositorySpy.errorValue)
+  })
 })
