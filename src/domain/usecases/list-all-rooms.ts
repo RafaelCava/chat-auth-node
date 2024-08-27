@@ -8,8 +8,10 @@ export namespace ListAllRoomsUseCase {
   export type Params = {
     limit: number;
     page: number;
-    ownerId?: string;
-    name?: string;
+    filters?: {
+      ownerId?: string;
+      name?: string;
+    }
   };
 
   export type Result = Room[];

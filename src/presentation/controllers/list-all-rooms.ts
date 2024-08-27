@@ -19,8 +19,10 @@ export class ListAllRoomsController implements Controller {
       const rooms = await this.listAllRooms.listAll({
         limit: Number(limit),
         page: Number(page),
-        name,
-        ownerId
+        filters: {
+          ownerId,
+          name
+        }
       })
       return ok(rooms)
     } catch (error) {
