@@ -1,3 +1,4 @@
+import MockDate from 'mockdate';
 import { CreateRoom } from "@/data/usecases";
 import { CreateRoomRepository, FindRoomByNameRepository } from "@/data/protocols/db";
 import { Spy } from "@/tests/shared/spy";
@@ -71,6 +72,14 @@ const makeParams = () => ({
 })
 
 describe('CreateRoom', () => {
+  beforeEach(() => {
+    MockDate.set(new Date())
+  })
+
+  afterAll(() => {
+    MockDate.reset()
+  })
+  
   it('Should be defined', () => {
     const { createRoomRepositorySpy, findRoomByNameRepositorySpy, sut } = makeSut()
     expect(sut).toBeDefined()
