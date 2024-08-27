@@ -26,6 +26,7 @@ export class ListAllRoomsController implements Controller {
       })
       return ok(rooms)
     } catch (error) {
+      console.log(error);
       return serverError(error)
     }
   }
@@ -39,5 +40,5 @@ export namespace ListAllRoomsController {
     page: string;
   }
 
-  export type Result = Room[] | null | Error
+  export type Result = Partial<Room>[] | null | Error
 }
