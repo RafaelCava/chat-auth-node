@@ -6,6 +6,7 @@ export default async (): Promise<Config> => {
     collectCoverageFrom: [
       '<rootDir>/src/**/*.ts',
       '!<rootDir>/src/**/index.ts',
+      '!<rootDir>/src/infra/**/*-helper.ts',
       '!<rootDir>/src/main/**'
     ],
     coverageDirectory: 'coverage',
