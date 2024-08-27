@@ -39,11 +39,28 @@ const makeSut = (): SutTypes => {
   }
 }
 
+const makeRequest = () => ({
+  limit: faker.number.int({ min: 1 }).toString(),
+  page: faker.number.int({ min: 1 }).toString(),
+  name: faker.lorem.word(),
+  ownerId: faker.string.uuid()
+})
+
 describe('ListAllRooms', () => {
   it('Should be defined', () => {
     const { sut, listAllRoomsUseCaseSpy, validationSpy } = makeSut()
     expect(sut).toBeDefined()
     expect(listAllRoomsUseCaseSpy).toBeDefined()
     expect(validationSpy).toBeDefined()
+  })
+
+  describe('Validation', () => {
+    it('Should call Validation with correct values', async () => {
+      const { sut, validationSpy } = makeSut()
+      const request = makeRequest()
+      await sut.handle(request)
+      expect(validationSpy.params).toEqual(request)
+      expect(validationSpy.count).toBe(1)
+    })
   })
 })
