@@ -17,7 +17,7 @@ class FindRoomsRepositorySpy implements FindRoomsRepository, Spy<FindRoomsReposi
     this.params = params
     ++this.count
     if (this.returnError) throw this.errorValue
-    if (this.returnNull) return await Promise.resolve(null)
+    if (this.returnNull) return await Promise.resolve([])
     return await Promise.resolve(this.result)
   }
 }
@@ -67,5 +67,12 @@ describe('ListAllRoomsUseCase', () => {
     findRoomsRepositorySpy.returnError = true
     const promise = sut.listAll(makeRequest())
     await expect(promise).rejects.toThrow(findRoomsRepositorySpy.errorValue)
+  })
+
+  it('Should return empty list if FindRoomsRepository returns null', async () => {
+    const { findRoomsRepositorySpy, sut } = makeSut()
+    findRoomsRepositorySpy.returnNull = true
+    const result = await sut.listAll(makeRequest())
+    expect(result).toEqual([])
   })
 })
