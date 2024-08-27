@@ -73,5 +73,29 @@ describe('Rooms Routes', () => {
         .expect(403)
         .expect({ error: 'Access denied' })
     })
+
+    it('Should return 500 if invalid token is provided', async () => {
+      await request(app)
+        .get('/api/rooms?page=1&limit=10')
+        .set('x-access-token', 'invalid_token')
+        .expect(500)
+        .expect({ error: 'jwt malformed' })
+    })
+
+    it('Should return 400 if invalid query params are provided - limit', async () => {
+      await request(app)
+        .get('/api/rooms?page=invalid&limit=invalid')
+        .set('x-access-token', (await makeToken()).token)
+        .expect(400)
+        .expect({ error: 'Invalid param: limit' })
+    })
+
+    it('Should return 400 if invalid query params are provided - page', async () => {
+      await request(app)
+        .get('/api/rooms?page=invalid&limit=10')
+        .set('x-access-token', (await makeToken()).token)
+        .expect(400)
+        .expect({ error: 'Invalid param: page' })
+    })
   })
 })
