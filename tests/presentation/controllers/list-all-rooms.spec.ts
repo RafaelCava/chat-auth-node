@@ -80,4 +80,21 @@ describe('ListAllRooms', () => {
       expect(listAllRoomsUseCaseSpy.count).toBe(0)
     })
   })
+
+  describe('ListAllRoomsUseCase', () => {
+    it('Should call ListAllRoomsUseCase with correct values', async () => {
+      const { sut, listAllRoomsUseCaseSpy } = makeSut()
+      const request = makeRequest()
+      await sut.handle(request)
+      expect(listAllRoomsUseCaseSpy.params).toEqual({
+        limit: Number(request.limit),
+        page: Number(request.page),
+        filters: {
+          ownerId: request.ownerId,
+          name: request.name
+        }
+      })
+      expect(listAllRoomsUseCaseSpy.count).toBe(1)
+    })
+  })
 })
