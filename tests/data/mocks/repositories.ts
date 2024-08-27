@@ -1,8 +1,8 @@
 import { Spy } from '@/tests/shared/spy';
-import { CreateUserRepository, FindUserByEmailRepository, FindUserByIdRepository, FindUsersRepository } from '@/data/protocols/db';
+import { CreateRoomRepository, CreateUserRepository, FindRoomByNameRepository, FindUserByEmailRepository, FindUserByIdRepository, FindUsersRepository } from '@/data/protocols/db';
 import { faker } from '@faker-js/faker';
-import { User } from '@/domain/entities';
-import { makeUser } from '@/tests/domain/mocks';
+import { Room, User } from '@/domain/entities';
+import { makeRoom, makeUser } from '@/tests/domain/mocks';
 
 export class FindUserByEmailRepositorySpy implements FindUserByEmailRepository, Spy {
   params: FindUserByEmailRepository.Params;
@@ -73,5 +73,46 @@ export class FindUserByIdRepositorySpy implements FindUserByIdRepository, Spy {
     this.count++
     if (this.returnError) throw this.errorValue
     return await (this.returnNull ? Promise.resolve(null) : Promise.resolve(this.result))
+  }
+}
+
+export class FindRoomByNameRepositorySpy implements FindRoomByNameRepository, Spy {
+  params: FindRoomByNameRepository.Params;
+  count: number = 0;
+  returnError: boolean = false;
+  returnNull?: boolean = false;
+  errorValue: Error = new Error(faker.lorem.sentence(3));
+  result: FindRoomByNameRepository.Result = makeRoom({});
+  async findByName(params: FindRoomByNameRepository.Params): Promise<FindRoomByNameRepository.Result> {
+    ++this.count
+    this.params = params
+    if (this.returnError) {
+      throw this.errorValue
+    }
+    if (this.returnNull) {
+      return await Promise.resolve(null)
+    }
+    return await Promise.resolve(this.result)
+  }
+}
+
+export class CreateRoomRepositorySpy implements CreateRoomRepository, Spy<CreateRoomRepository.Params, CreateRoomRepository.Result> {
+  params: Room;
+  count: number = 0;
+  returnError: boolean = false;
+  returnNull?: boolean = false;
+  errorValue: Error = new Error(faker.lorem.sentence(3));
+  result: Room = makeRoom({});
+
+  async create(params: CreateRoomRepository.Params): Promise<CreateRoomRepository.Result> {
+    ++this.count
+    this.params = params
+    if (this.returnError) {
+      throw this.errorValue
+    }
+    if (this.returnNull) {
+      return await Promise.resolve(null)
+    }
+    return await Promise.resolve(this.result)
   }
 }
