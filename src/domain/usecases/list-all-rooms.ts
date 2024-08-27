@@ -14,5 +14,5 @@ export namespace ListAllRoomsUseCase {
     }
   };
 
-  export type Result = Room[];
+  export type Result = Partial<Room>[];
 }
