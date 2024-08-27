@@ -96,5 +96,12 @@ describe('ListAllRooms', () => {
       })
       expect(listAllRoomsUseCaseSpy.count).toBe(1)
     })
+
+    it('Should return serverError if ListAllRoomsUseCase throws', async () => {
+      const { sut, listAllRoomsUseCaseSpy } = makeSut()
+      listAllRoomsUseCaseSpy.returnError = true
+      const response = await sut.handle(makeRequest())
+      expect(response).toEqual(serverError(listAllRoomsUseCaseSpy.errorValue))
+    })
   })
 })
