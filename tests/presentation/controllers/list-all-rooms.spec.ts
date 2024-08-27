@@ -4,6 +4,7 @@ import { Spy } from '@/tests/shared/spy';
 import { ListAllRoomsUseCase } from '@/domain/usecases';
 import { faker } from '@faker-js/faker';
 import { makeRoom } from '@/tests/domain/mocks';
+import { badRequest } from '@/presentation/helpers/http-helper';
 
 class ListAllRoomsUseCaseSpy implements ListAllRoomsUseCase, Spy<ListAllRoomsUseCase.Params, ListAllRoomsUseCase.Result> {
   params: ListAllRoomsUseCase.Params;
@@ -61,6 +62,14 @@ describe('ListAllRooms', () => {
       await sut.handle(request)
       expect(validationSpy.params).toEqual(request)
       expect(validationSpy.count).toBe(1)
+    })
+
+    it('Should badRequest if Validation returns an error', async () => {
+      const { sut, validationSpy, listAllRoomsUseCaseSpy } = makeSut()
+      validationSpy.returnError = true
+      const response = await sut.handle(makeRequest())
+      expect(response).toEqual(badRequest(validationSpy.errorValue))
+      expect(listAllRoomsUseCaseSpy.count).toBe(0)
     })
   })
 })
