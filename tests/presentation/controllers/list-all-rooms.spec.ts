@@ -109,5 +109,12 @@ describe('ListAllRooms', () => {
       const response = await sut.handle(makeRequest())
       expect(response).toEqual(ok(listAllRoomsUseCaseSpy.result))
     })
+
+    it('Should return ok with the result of ListAllRoomsUseCase - empty data', async () => {
+      const { sut, listAllRoomsUseCaseSpy } = makeSut()
+      listAllRoomsUseCaseSpy.returnNull = true
+      const response = await sut.handle(makeRequest())
+      expect(response).toEqual(ok([]))
+    })
   })
 })
