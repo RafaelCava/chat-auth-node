@@ -59,12 +59,19 @@ describe('Rooms Routes', () => {
   })
 
   describe('GET /rooms', () => {
-    it.only('Should return 200 on success', async () => {
+    it('Should return 200 on success', async () => {
       await request(app)
         .get('/api/rooms?page=1&limit=10')
         .set('x-access-token', (await makeToken()).token)
         .expect(200)
         .expect([])
+    })
+
+    it('Should return 403 if no token is provided', async () => {
+      await request(app)
+        .get('/api/rooms?page=1&limit=10')
+        .expect(403)
+        .expect({ error: 'Access denied' })
     })
   })
 })
