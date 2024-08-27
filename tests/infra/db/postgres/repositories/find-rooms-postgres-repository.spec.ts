@@ -1,6 +1,7 @@
 import { FindRoomsPostgresRepository } from '@/infra/db/postgres/repositories';
 import { PrismaClient } from '@prisma/client';
 import { PostgresHelper } from '@/infra/db/postgres/helpers/postgres-helper';
+import { faker } from '@faker-js/faker';
 
 const makeSut = () => new FindRoomsPostgresRepository()
 
@@ -31,6 +32,19 @@ describe('FindRoomsPostgresRepository', () => {
   it('Should be defined', () => {
     const sut = makeSut()
     expect(sut).toBeDefined()
+  })
+
+  it('Should call findMany with correct params', async () => {
+    const sut = makeSut()
+    const params = { limit: 10, page: 1, projection: ['id'] as any, filters: { ownerId: faker.string.uuid() } }
+    const findManySpy = jest.spyOn(PostgresHelper.client.room, 'findMany')
+    await sut.find(params)
+    expect(findManySpy).toHaveBeenCalledWith({
+      take: params.limit,
+      skip: (params.page - 1) * params.limit,
+      select: PostgresHelper.formateProjection(params.projection),
+      where: params.filters
+    })
   })
 
   it('Should return an array of rooms', async () => {
