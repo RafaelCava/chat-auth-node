@@ -4,7 +4,7 @@ import { ShowProfileController } from "@/presentation/controllers"
 import { ShowProfileUseCase } from "@/domain/usecases"
 import { faker } from "@faker-js/faker"
 import { makeUser } from "@/tests/domain/mocks"
-import { badRequest } from "@/presentation/helpers/http-helper"
+import { badRequest, serverError } from "@/presentation/helpers/http-helper"
 
 class ShowProfileUseCaseSpy implements ShowProfileUseCase, Spy<string, ShowProfileUseCase.Response> {
   params: string
@@ -58,6 +58,14 @@ describe('ShowProfileController', () => {
       validationSpy.returnError = true
       const response = await sut.handle({ userId: faker.string.uuid() })
       expect(response).toEqual(badRequest(validationSpy.errorValue))
+      expect(showProfileSpy.count).toBe(0)
+    })
+
+    it('Should return serverError if validation returns an error', async () => {
+      const { sut, validationSpy, showProfileSpy } = makeSut()
+      validationSpy.throwsError = true
+      const response = await sut.handle({ userId: faker.string.uuid() })
+      expect(response).toEqual(serverError(validationSpy.errorValue))
       expect(showProfileSpy.count).toBe(0)
     })
   })
