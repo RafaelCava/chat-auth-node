@@ -210,4 +210,19 @@ describe('Rooms Routes', () => {
         })
     })
   })
+
+  describe('POST /rooms', () => {
+    it('Should return created room', async () => {
+      const authorization = await makeToken()
+      const mockRoom = makeRoom({ ownerId: authorization.id })
+      await request(app)
+        .post('/api/rooms')
+        .send(mockRoom)
+        .set('x-access-token', authorization.token)
+        .expect(201)
+        .expect((data) => {
+          expect(data.body).toEqual({...mockRoom, id: expect.any(String), createdAt: expect.any(String), updatedAt: expect.any(String)})
+        })
+    })
+  })
 })
