@@ -78,5 +78,12 @@ describe('ShowProfileController', () => {
       expect(showProfileSpy.params).toEqual(request.userId)
       expect(showProfileSpy.count).toBe(1)
     })
+
+    it('Should return serverError if ShowProfileUseCase throws an error', async () => {
+      const { sut, showProfileSpy } = makeSut()
+      showProfileSpy.returnError = true
+      const response = await sut.handle({ userId: faker.string.uuid() })
+      expect(response).toEqual(serverError(showProfileSpy.errorValue))
+    })
   })
 })
