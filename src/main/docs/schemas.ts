@@ -3,7 +3,8 @@ import {
   loginParamsSchema,
   authenticationResultSchema,
   roomSchema,
-  roomsSchema
+  roomsSchema,
+  createRoomParamsSchema
 } from './schemas/'
 
 export default {
@@ -11,5 +12,6 @@ export default {
   loginParams: loginParamsSchema,
   'authentication-result': authenticationResultSchema,
   room: roomSchema,
-  rooms: roomsSchema
+  rooms: roomsSchema,
+  'create-room-params': createRoomParamsSchema
 }
