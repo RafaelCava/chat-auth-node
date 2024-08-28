@@ -1,6 +1,4 @@
-FROM node:20 as base
-
-FROM base as install-dependencies
+FROM node:20 as install-dependencies
 
 WORKDIR /usr/chat-auth-node/app
 
@@ -8,9 +6,9 @@ ENV NODE_ENV=production
 
 COPY package.json .
 
-RUN npm install --only=prod
+RUN npm install --omit=dev
 
-FROM base as builder
+FROM node:20 as builder
 
 WORKDIR /usr/chat-auth-node/app
 
@@ -30,8 +28,8 @@ WORKDIR /usr/chat-auth-node/app
 
 RUN apk add --no-cache bash curl
 
-LABEL org.opencontainers.image.authors="ra.facavalcante@hotmail.com"
-LABEL org.opencontainers.image.description = "Chat Auth Node"
+LABEL org.opencontainers.image.authors "ra.facavalcante@hotmail.com"
+LABEL org.opencontainers.image.description "Chat Auth Node"
 
 COPY .docker/entrypoints/entrypoint-prod.sh ./entrypoint.sh
 COPY package.json .
