@@ -230,5 +230,25 @@ describe('Authentication Routes', () => {
           })
       })
     })
+    describe('GET /profile', () => {
+      it('Should return 200 with user without password', async () => {
+        const id = faker.string.uuid()
+        const user = new User({
+          email: faker.internet.email(),
+          name: faker.person.fullName(),
+          password: faker.internet.password()
+        }, id)
+        await makeUserPostgres(user)
+        const token = await makeToken(id)
+        await request(app)
+          .get('/api/auth/profile')
+          .set('x-access-token', token)
+          .expect(200)
+          .expect((data) => {
+            delete user.password
+            expect(data.body).toEqual({...user, createdAt: user.createdAt.toISOString(), updatedAt: user.updatedAt.toISOString()})
+          })
+      })
+    })
   })
 })
