@@ -10,6 +10,14 @@ export class FindRoomsPostgresRepository implements FindRoomsRepository {
     if (params.filters) {
       query.where = params.filters
     }
+    if (params.filters?.name) {
+      query.where = {
+        ...query.where,
+        name: {
+          contains: params.filters.name
+        }
+      }
+    }
     if (params.projection?.length) {
       query.select = PostgresHelper.formateProjection(params.projection)
     }

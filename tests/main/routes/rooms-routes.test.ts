@@ -9,6 +9,7 @@ import MockDate from 'mockdate';
 import { faker } from '@faker-js/faker';
 import { JwtAdapter } from '@/infra/criptography/jwt/jwt-adapter';
 import env from '@/main/config/env';
+import { makeRoom } from '@/tests/domain/mocks';
 
 
 describe('Rooms Routes', () => {
@@ -29,7 +30,8 @@ describe('Rooms Routes', () => {
     const token = await encrypterAdapter.encrypt('123123123', '1d')
     return {
       token,
-      params
+      params,
+      id: '123123123'
     }
   }
 
@@ -47,8 +49,8 @@ describe('Rooms Routes', () => {
   })
 
   afterEach(async () => {
-    await postgresClient.query('DELETE FROM "User"')
     await postgresClient.query('DELETE FROM "Room"')
+    await postgresClient.query('DELETE FROM "User"')
   })
 
   afterAll(async () => {
@@ -96,6 +98,65 @@ describe('Rooms Routes', () => {
         .set('x-access-token', (await makeToken()).token)
         .expect(400)
         .expect({ error: 'Invalid param: page' })
+    })
+
+    it('Should return 400 if no query params are provided - page', async () => {
+      await request(app)
+        .get('/api/rooms?limit=10')
+        .set('x-access-token', (await makeToken()).token)
+        .expect(400)
+        .expect({ error: 'Missing param: page' })
+    })
+
+    it('Should return 400 if no query params are provided - limit', async () => {
+      await request(app)
+        .get('/api/rooms?page=10')
+        .set('x-access-token', (await makeToken()).token)
+        .expect(400)
+        .expect({ error: 'Missing param: limit' })
+    })
+
+    it('Should return 200 with rooms', async () => {
+      const authorization = await makeToken()
+      const mockRoom = makeRoom({ ownerId: authorization.id })
+      const databaseRoom = await PostgresHelper.client.room.create({
+        data: mockRoom
+      })
+      await request(app)
+        .get('/api/rooms?page=1&limit=10')
+        .set('x-access-token', authorization.token)
+        .expect(200)
+        .expect([{...databaseRoom, createdAt: databaseRoom.createdAt.toISOString(), updatedAt: databaseRoom.updatedAt.toISOString()}])
+    })
+
+    it('Should return 200 with rooms in the limit', async () => {
+      const authorization = await makeToken()
+      const mockRooms = [makeRoom({ ownerId: authorization.id }), makeRoom({ ownerId: authorization.id }), makeRoom({ ownerId: authorization.id })]
+      await PostgresHelper.client.room.createMany({
+        data: mockRooms,
+      })
+      await request(app)
+        .get('/api/rooms?page=1&limit=2')
+        .set('x-access-token', authorization.token)
+        .expect(200)
+        .expect((data) => {
+          expect(data.body).toHaveLength(2)
+        })
+    })
+
+    it('Should return 200 with rooms in the limit', async () => {
+      const authorization = await makeToken()
+      const mockRooms = [makeRoom({ ownerId: authorization.id }), makeRoom({ ownerId: authorization.id }), makeRoom({ ownerId: authorization.id })]
+      await PostgresHelper.client.room.createMany({
+        data: mockRooms,
+      })
+      await request(app)
+        .get('/api/rooms?page=1&limit=2')
+        .set('x-access-token', authorization.token)
+        .expect(200)
+        .expect((data) => {
+          expect(data.body).toHaveLength(2)
+        })
     })
   })
 })

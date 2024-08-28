@@ -47,6 +47,19 @@ describe('FindRoomsPostgresRepository', () => {
     })
   })
 
+  it('Should call findMany with correct params - name', async () => {
+    const sut = makeSut()
+    const params = { limit: 10, page: 1, projection: ['id'] as any, filters: { name: faker.person.fullName() } }
+    const findManySpy = jest.spyOn(PostgresHelper.client.room, 'findMany')
+    await sut.find(params)
+    expect(findManySpy).toHaveBeenCalledWith({
+      take: params.limit,
+      skip: (params.page - 1) * params.limit,
+      select: PostgresHelper.formateProjection(params.projection),
+      where: {...params.filters, name: { contains: params.filters.name }}
+    })
+  })
+
   it('Should return an array of rooms', async () => {
     const sut = makeSut()
     const params = { limit: 10, page: 1, projection: ['id'] as any }
