@@ -224,5 +224,12 @@ describe('Rooms Routes', () => {
           expect(data.body).toEqual({...mockRoom, id: expect.any(String), createdAt: expect.any(String), updatedAt: expect.any(String)})
         })
     })
+
+    it('Should return 403 if no token is provided', async () => {
+      await request(app)
+        .post('/api/rooms')
+        .expect(403)
+        .expect({ error: 'Access denied' })
+    })
   })
 })
