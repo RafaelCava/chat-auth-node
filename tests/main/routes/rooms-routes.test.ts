@@ -19,19 +19,19 @@ describe('Rooms Routes', () => {
   const encrypterAdapter = new JwtAdapter(env.jwtSecret, env.jwtIssuer)
   jest.setTimeout(30000)
 
-  const makeToken = async () => {
+  const makeToken = async (id = faker.string.uuid()) => {
     const params = {
       email: faker.internet.email(),
       name: faker.person.fullName(),
       password: faker.internet.password()
     }
     const date = new Date()
-    await postgresClient.query('INSERT INTO "User" (id, email, name, password, "updatedAt", "createdAt") VALUES ($1, $2, $3, $4, $5, $6)', ['123123123', params.email, params.name, params.password, date, date])
-    const token = await encrypterAdapter.encrypt('123123123', '1d')
+    await postgresClient.query('INSERT INTO "User" (id, email, name, password, "updatedAt", "createdAt") VALUES ($1, $2, $3, $4, $5, $6)', [id, params.email, params.name, params.password, date, date])
+    const token = await encrypterAdapter.encrypt(id, '1d')
     return {
       token,
       params,
-      id: '123123123'
+      id
     }
   }
 
@@ -156,6 +156,57 @@ describe('Rooms Routes', () => {
         .expect(200)
         .expect((data) => {
           expect(data.body).toHaveLength(2)
+        })
+    })
+
+    it('Should return 200 with rooms in the limit and name filter', async () => {
+      const authorization = await makeToken()
+      const mockRooms = [makeRoom({ ownerId: authorization.id }), makeRoom({ ownerId: authorization.id }), makeRoom({ ownerId: authorization.id })]
+      await PostgresHelper.client.room.createMany({
+        data: mockRooms,
+      })
+      await request(app)
+        .get(`/api/rooms?page=1&limit=2&name=${mockRooms[0].name.split(' ')[0]}`)
+        .set('x-access-token', authorization.token)
+        .expect(200)
+        .expect([{...mockRooms[0], createdAt: mockRooms[0].createdAt.toISOString(), updatedAt: mockRooms[0].updatedAt.toISOString()}])
+    })
+
+    it('Should return 200 with rooms in the limit and ownerId filter', async () => {
+      const authorization = await makeToken()
+      const authorization2 = await makeToken()
+      const mockRooms = [makeRoom({ ownerId: authorization.id }), makeRoom({ ownerId: authorization.id }), makeRoom({ ownerId: authorization.id })]
+      await PostgresHelper.client.room.createMany({
+        data: mockRooms,
+      })
+      await PostgresHelper.client.room.create({
+        data: makeRoom({ ownerId: authorization2.id })
+      })
+      await request(app)
+        .get(`/api/rooms?page=1&limit=10&ownerId=${authorization.id}`)
+        .set('x-access-token', authorization.token)
+        .expect(200)
+        .expect((data) => {
+          expect(data.body).toHaveLength(3)
+        })
+    })
+
+    it('Should return 200 with rooms in the limit and ownerId filter - 2', async () => {
+      const authorization = await makeToken()
+      const authorization2 = await makeToken()
+      const mockRooms = [makeRoom({ ownerId: authorization.id }), makeRoom({ ownerId: authorization.id }), makeRoom({ ownerId: authorization.id })]
+      await PostgresHelper.client.room.createMany({
+        data: mockRooms,
+      })
+      await PostgresHelper.client.room.create({
+        data: makeRoom({ ownerId: authorization2.id })
+      })
+      await request(app)
+        .get(`/api/rooms?page=1&limit=10&ownerId=${authorization2.id}`)
+        .set('x-access-token', authorization.token)
+        .expect(200)
+        .expect((data) => {
+          expect(data.body).toHaveLength(1)
         })
     })
   })
