@@ -239,5 +239,15 @@ describe('Rooms Routes', () => {
         .expect(500)
         .expect({ error: 'jwt malformed' })
     })
+
+    it('Should return 400 if no name is provided', async () => {
+      const authorization = await makeToken()
+      await request(app)
+        .post('/api/rooms')
+        .send({ ownerId: authorization.id })
+        .set('x-access-token', authorization.token)
+        .expect(400)
+        .expect({ error: 'Missing param: name' })
+    })
   })
 })
