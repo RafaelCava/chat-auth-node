@@ -231,5 +231,13 @@ describe('Rooms Routes', () => {
         .expect(403)
         .expect({ error: 'Access denied' })
     })
+
+    it('Should return 500 if invalid token is provided', async () => {
+      await request(app)
+        .post('/api/rooms')
+        .set('x-access-token', 'invalid_token')
+        .expect(500)
+        .expect({ error: 'jwt malformed' })
+    })
   })
 })
