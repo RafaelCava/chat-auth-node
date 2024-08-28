@@ -69,4 +69,14 @@ describe('ShowProfileController', () => {
       expect(showProfileSpy.count).toBe(0)
     })
   })
+
+  describe('ShowProfileUseCase', () => {
+    it('Should call ShowProfileUseCase with correct values', async () => {
+      const { sut, showProfileSpy } = makeSut()
+      const request = { userId: faker.string.uuid() }
+      await sut.handle(request)
+      expect(showProfileSpy.params).toEqual(request.userId)
+      expect(showProfileSpy.count).toBe(1)
+    })
+  })
 })
