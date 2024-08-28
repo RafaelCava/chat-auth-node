@@ -30,4 +30,10 @@ describe('ShowProfileUseCase', () => {
     findUserByIdRepositorySpy.returnError = true
     await expect(sut.show('any_id')).rejects.toThrow(findUserByIdRepositorySpy.errorValue)
   })
+
+  it('Should return a user on success', async () => {
+    const { sut, findUserByIdRepositorySpy } = makeSut()
+    const response = await sut.show('any_id')
+    expect(response).toEqual(findUserByIdRepositorySpy.result)
+  })
 })
