@@ -1,11 +1,15 @@
 import {
   errorSchema,
   loginParamsSchema,
-  authenticationResultSchema
+  authenticationResultSchema,
+  roomSchema,
+  roomsSchema
 } from './schemas/'
 
 export default {
   error: errorSchema,
   loginParams: loginParamsSchema,
-  'authentication-result': authenticationResultSchema
+  'authentication-result': authenticationResultSchema,
+  room: roomSchema,
+  rooms: roomsSchema
 }

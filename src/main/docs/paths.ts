@@ -1,5 +1,6 @@
-import { loginPath } from "./paths/login-path";
+import { loginPath, roomsPath } from "./paths/";
 
 export default {
-  '/auth/login': loginPath
+  '/auth/login': loginPath,
+  '/rooms': roomsPath
 }
