@@ -4,6 +4,7 @@ import { makeCreateRoomController, makeListAllRoomsController } from '@/main/fac
 import { auth } from '../middlewares'
 
 export default (router: Router): void => {
-  router.post('/rooms', auth, adaptRoute(makeCreateRoomController()))
-  router.get('/rooms', auth, adaptRoute(makeListAllRoomsController()))
+  router.post('/', auth, adaptRoute(makeCreateRoomController()))
+  router.get('/', auth, adaptRoute(makeListAllRoomsController()))
+  router.use('/rooms', router)
 }
