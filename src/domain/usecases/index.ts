@@ -5,3 +5,4 @@ export * from './load-user-by-token';
 export * from './authentication';
 export * from './refresh-token';
 export * from './create-room';
+export * from './show-profile';
