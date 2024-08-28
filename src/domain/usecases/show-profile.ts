@@ -5,5 +5,5 @@ export interface ShowProfileUseCase {
 }
 
 export namespace ShowProfileUseCase {
-  export type Response = Omit<User, 'password'>
+  export type Response = Partial<Omit<User, 'password'>>
 }
