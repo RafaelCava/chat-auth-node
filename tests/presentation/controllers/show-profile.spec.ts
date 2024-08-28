@@ -4,7 +4,7 @@ import { ShowProfileController } from "@/presentation/controllers"
 import { ShowProfileUseCase } from "@/domain/usecases"
 import { faker } from "@faker-js/faker"
 import { makeUser } from "@/tests/domain/mocks"
-import { badRequest, serverError } from "@/presentation/helpers/http-helper"
+import { badRequest, ok, serverError } from "@/presentation/helpers/http-helper"
 
 class ShowProfileUseCaseSpy implements ShowProfileUseCase, Spy<string, ShowProfileUseCase.Response> {
   params: string
@@ -84,6 +84,12 @@ describe('ShowProfileController', () => {
       showProfileSpy.returnError = true
       const response = await sut.handle({ userId: faker.string.uuid() })
       expect(response).toEqual(serverError(showProfileSpy.errorValue))
+    })
+
+    it('Should return ok with user data without password', async () => {
+      const { sut, showProfileSpy } = makeSut()
+      const response = await sut.handle({ userId: faker.string.uuid() })
+      expect(response).toEqual(ok(showProfileSpy.result))
     })
   })
 })
