@@ -1,5 +1,5 @@
 import { Spy } from '@/tests/shared/spy';
-import { CreateRoomRepository, CreateUserRepository, FindRoomByNameRepository, FindUserByEmailRepository, FindUserByIdRepository, FindUsersRepository } from '@/data/protocols/db';
+import { CreateRoomRepository, CreateUserRepository, FindRoomByNameRepository, FindRoomsRepository, FindUserByEmailRepository, FindUserByIdRepository, FindUsersRepository } from '@/data/protocols/db';
 import { faker } from '@faker-js/faker';
 import { Room, User } from '@/domain/entities';
 import { makeRoom, makeUser } from '@/tests/domain/mocks';
@@ -113,6 +113,23 @@ export class CreateRoomRepositorySpy implements CreateRoomRepository, Spy<Create
     if (this.returnNull) {
       return await Promise.resolve(null)
     }
+    return await Promise.resolve(this.result)
+  }
+}
+
+export class FindRoomsRepositorySpy implements FindRoomsRepository, Spy<FindRoomsRepository.Params, FindRoomsRepository.Result> {
+  params: FindRoomsRepository.Params
+  count: number = 0
+  returnError: boolean = false
+  returnNull?: boolean = false
+  errorValue: Error = new Error(faker.lorem.sentence(3))
+  result: Partial<Room>[] = [makeRoom({})]
+
+  async find(params: FindRoomsRepository.Params): Promise<FindRoomsRepository.Result> {
+    this.params = params
+    ++this.count
+    if (this.returnError) throw this.errorValue
+    if (this.returnNull) return await Promise.resolve([])
     return await Promise.resolve(this.result)
   }
 }
