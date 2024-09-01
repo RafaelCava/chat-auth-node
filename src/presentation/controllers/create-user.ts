@@ -12,6 +12,7 @@ export class CreateUserController implements Controller<CreateUserController.Req
   async handle(request: CreateUserController.Request): Promise<CreateUserController.Response> {
     try {
       const error = await this.validation.validate(request);
+      
       if (error) {
         return badRequest(error);
       }
