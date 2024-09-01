@@ -14,7 +14,7 @@ pre-push:
 #       run: bundle audit
 #
 pre-commit:
-#   parallel: true
+  parallel: true
   commands:
     eslint:
       glob: "*.{js,ts,jsx,tsx}"
@@ -22,6 +22,8 @@ pre-commit:
     jest:
       glob: "*.(spec|test).ts"
       run: npm run test -- --testRegex {staged_files}
+    commitlint:
+      run: "npx commitlint --edit $GIT_PARAMS"
 #     rubocop:
 #       tags: backend style
 #       glob: "*.rb"

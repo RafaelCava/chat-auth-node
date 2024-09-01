@@ -10,6 +10,8 @@ npx prisma generate
 
 git config --global --add safe.directory /usr/chat-auth-node/app
 
+npx lefthook install
+
 npm run build:compile -- --watch &
 
 npm run start:debug
