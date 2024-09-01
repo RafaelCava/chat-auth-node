@@ -11,7 +11,7 @@
     "test:unit": "npm run test --  --watchAll -c jest-unit.config.ts",
     "test:integration": "npm run test --  --watch -c jest-integration.config.ts",
     "test:cov": "rimraf coverage && npm run test --  --coverage",
-    "build:compile": "swc src -d dist --source-maps --config-file .swcrc -s inline",
+    "build:compile": "rimraf dist && swc src -d dist --source-maps --config-file .swcrc -s inline",
     "build:watch": "npm run build:compile -- --watch",
     "build": "rimraf dist && npm run build:compile",
     "test:staged": "npm run test --  --findRelatedTests $(git status -s | grep -E '.(spec|test).ts$')"
