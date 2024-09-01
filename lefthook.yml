@@ -3,22 +3,22 @@ pre-push:
   commands:
     generate-coverage:
       tags: backend coverage
-      run: npm run test:cov
+      run: docker exec chat-auth-node npm run test:cov
 pre-commit:
   parallel: true
   commands:
     eslint:
       tags: lint
       glob: "*.ts"
-      run: npx eslint --fix {staged_files} && git add {staged_files}
+      run: docker exec chat-auth-node npx eslint --fix {staged_files} && git add {staged_files}
     jest-related-tests:
       tags: coverage
       glob: "*.ts"
-      run: npm run test -- --findRelatedTests {staged_files}
+      run: docker exec chat-auth-node npm run test -- --findRelatedTests {staged_files}
     jest-changed-tests:
       tags: coverage
       glob: "*.(spec|test).ts"
-      run: npm run test -- --testRegex {staged_files}
+      run: docker exec chat-auth-node npm run test -- --testRegex {staged_files}
 commit-msg:
   parallel: true
   commands:
