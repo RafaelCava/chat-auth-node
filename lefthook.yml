@@ -17,13 +17,21 @@ pre-commit:
   parallel: true
   commands:
     eslint:
+      tags: lint
       glob: "*.{js,ts,jsx,tsx}"
       run: npx eslint {staged_files}
     jest:
+      tags: coverage
       glob: "*.ts"
       run: npm run test -- --findRelatedTests {staged_files}
+commit-msg:
+  parallel: true
+  commands:
     commitlint:
-      run: "npx commitlint --edit $GIT_PARAMS"
+      tags: lint
+      run: npx commitlint -e $1
+    multiple-sign-off:
+      run: 'test $(grep -c "^Signed-off-by: " {1}) -lt 2'
 #     rubocop:
 #       tags: backend style
 #       glob: "*.rb"
