@@ -21,7 +21,7 @@ pre-commit:
       run: npx eslint {staged_files}
     jest:
       glob: "*.(spec|test).ts"
-      run: npm run test -- --testRegex {staged_files}
+      run: npm run test -- --findRelatedTests {staged_files}
     commitlint:
       run: "npx commitlint --edit $GIT_PARAMS"
 #     rubocop:
