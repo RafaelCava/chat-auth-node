@@ -11,6 +11,14 @@ export default async (): Promise<Config> => {
     ],
     coverageDirectory: 'coverage',
     coverageProvider: 'babel',
+    coverageThreshold: {
+      global: {
+        statements: 100,
+        branches: 100,
+        lines: 100,
+        functions: 100
+      }
+    },
     transform: {
       '.+\\.ts$': '@swc/jest'
     },
