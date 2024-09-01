@@ -12,6 +12,7 @@ export class CreateRoomController implements Controller<CreateRoomController.Req
   async handle (request: CreateRoomController.Request): Promise<CreateRoomController.Response> {
     try {
       const error = await this.validation.validate(request)
+
       if (error) {
         return badRequest(error)
       }
