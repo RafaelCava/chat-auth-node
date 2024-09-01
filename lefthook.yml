@@ -1,29 +1,24 @@
-# EXAMPLE USAGE:
-#
-#   Refer for explanation to following link:
-#   https://github.com/evilmartians/lefthook/blob/master/docs/configuration.md
-#
 pre-push:
   parallel: true
   commands:
     generate-coverage:
       tags: backend coverage
       run: npm run test:cov
-#     gems-audit:
-#       tags: backend security
-#       run: bundle audit
-#
 pre-commit:
   parallel: true
   commands:
     eslint:
       tags: lint
-      glob: "*.{js,ts,jsx,tsx}"
-      run: npx eslint {staged_files}
-    jest:
+      glob: "*.ts"
+      run: npx eslint --fix {staged_files} && git add {staged_files}
+    jest-related-tests:
       tags: coverage
       glob: "*.ts"
       run: npm run test -- --findRelatedTests {staged_files}
+    jest-changed-tests:
+      tags: coverage
+      glob: "*.(spec|test).ts"
+      run: npm run test -- --testRegex {staged_files}
 commit-msg:
   parallel: true
   commands:
@@ -32,18 +27,3 @@ commit-msg:
       run: npx commitlint -e $1
     multiple-sign-off:
       run: 'test $(grep -c "^Signed-off-by: " {1}) -lt 2'
-#     rubocop:
-#       tags: backend style
-#       glob: "*.rb"
-#       exclude: '(^|/)(application|routes)\.rb$'
-#       run: bundle exec rubocop --force-exclusion {all_files}
-#     govet:
-#       tags: backend style
-#       files: git ls-files -m
-#       glob: "*.go"
-#       run: go vet {files}
-#   scripts:
-#     "hello.js":
-#       runner: node
-#     "any.go":
-#       runner: go run
