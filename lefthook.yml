@@ -20,7 +20,7 @@ pre-commit:
       glob: "*.{js,ts,jsx,tsx}"
       run: npx eslint {staged_files}
     jest:
-      glob: "*.(spec|test).ts"
+      glob: "*.ts"
       run: npm run test -- --findRelatedTests {staged_files}
     commitlint:
       run: "npx commitlint --edit $GIT_PARAMS"
