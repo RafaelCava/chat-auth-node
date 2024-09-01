@@ -4,14 +4,14 @@ import tseslint from "typescript-eslint";
 
 
 export default [
-  {languageOptions: { globals: globals.node }},
+  {files: ["**/*.{js,mjs,cjs,ts}"]},
+  {languageOptions: { globals: {...globals.browser, ...globals.node} }},
   pluginJs.configs.recommended,
   ...tseslint.configs.recommended,
   {
     rules: {
-      "@typescript-eslint/no-explicit-any": "off",
       "@typescript-eslint/no-namespace": "off",
-      "@typescript-eslint/no-unused-vars": "off"
+      "@typescript-eslint/no-explicit-any": "off"
     }
-  }
+  },
 ];
