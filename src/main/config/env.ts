@@ -7,4 +7,5 @@ export default {
   jwtSecret: process.env.JWT_SECRET || 'secret',
   jwtIssuer: process.env.JWT_ISSUER || 'issuer',
   saltHasher: Number(process.env.SALT_HASHER) || 11,
+  applicationDomain: process.env.APPLICATION_DOMAIN,
 }
