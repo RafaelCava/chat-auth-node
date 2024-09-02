@@ -7,7 +7,6 @@ export default async (): Promise<Config> => {
       '<rootDir>/src/**/*.ts',
       '!<rootDir>/src/**/index.ts',
       '!<rootDir>/src/infra/**/*-helper.ts',
-      '!<rootDir>/src/main/**'
     ],
     coverageDirectory: 'coverage',
     coverageProvider: 'babel',

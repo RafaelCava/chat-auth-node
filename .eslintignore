@@ -4,3 +4,4 @@ node_modules
 tmp
 .docker
 dist
+.scannerwork

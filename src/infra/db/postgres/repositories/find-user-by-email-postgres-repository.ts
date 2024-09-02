@@ -8,7 +8,7 @@ export class FindUserByEmailPostgresRepository implements FindUserByEmailReposit
         email: params.email
       }
     }
-    if (params.projection && params.projection.length) {
+    if (params.projection?.length) {
       query['select'] = PostgresHelper.formateProjection(params.projection)
     }
     const user = PostgresHelper.client.user.findUnique(query)
