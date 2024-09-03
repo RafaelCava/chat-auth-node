@@ -6,3 +6,4 @@ export * from "./list-all-rooms-controller-factory";
 export * from "./login-controller-factory";
 export * from "./refresh-token-controller-factory";
 export * from "./show-profile-controller-factory";
+export * from "./messages";

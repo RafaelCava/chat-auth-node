@@ -6,3 +6,4 @@ export * from "./email-validation";
 export * from "./required-field-validation";
 export * from "./is-number-field-validation";
 export * from "./is-jwt-token-validation";
+export * from "./max-string-length-validation";
