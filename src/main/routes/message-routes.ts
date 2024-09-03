@@ -4,9 +4,6 @@ import { makeSendMessageControllerFactory } from "@/main/factories/controllers";
 import { auth } from "../middlewares";
 
 export default (router: Router): void => {
-  router.post(
-    "/messages",
-    auth,
-    adaptRoute(makeSendMessageControllerFactory()),
-  );
+  router.post("/", auth, adaptRoute(makeSendMessageControllerFactory()));
+  router.use("/messages", router);
 };
