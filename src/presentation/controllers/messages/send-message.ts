@@ -1,28 +1,46 @@
 import { Message } from "@/domain/entities";
-import { badRequest } from "@/presentation/helpers/http-helper";
+import { SendMessageUseCase } from "@/domain/usecases/messages";
+import {
+  badRequest,
+  created,
+  serverError,
+} from "@/presentation/helpers/http-helper";
 import { Controller, HttpResponse, Validation } from "@/presentation/protocols";
 
 export class SendMessageController
   implements
     Controller<SendMessageController.Request, SendMessageController.Response>
 {
-  constructor(private readonly validation: Validation) {}
+  constructor(
+    private readonly validation: Validation,
+    private readonly sendMessageUseCase: SendMessageUseCase,
+  ) {}
 
   async handle(
     request: SendMessageController.Request,
   ): Promise<HttpResponse<SendMessageController.Response>> {
-    const error: any = await this.validation.validate(request);
-    if (error) {
-      return badRequest(error);
+    try {
+      const error = await this.validation.validate(request);
+      if (error) {
+        return badRequest(error);
+      }
+      const message = await this.sendMessageUseCase.send({
+        content: request.content,
+        roomId: request.roomId,
+        ownerId: request.userId,
+        createdAt: request.createdAt ? new Date(request.createdAt) : new Date(),
+      });
+      return created(message);
+    } catch (error) {
+      return serverError(error);
     }
-    return null;
   }
 }
 
 export namespace SendMessageController {
   export type Request = {
     content: string;
-    room: string;
+    roomId: string;
     userId: string;
     createdAt?: string;
   };

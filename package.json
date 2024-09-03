@@ -8,7 +8,7 @@
     "start:dev": "sucrase-node src/main/server.ts",
     "test": "NODE_ENV=test jest --passWithNoTests --silent --noStackTrace --runInBand",
     "test:verbose": "NODE_ENV=test jest --passWithNoTests --runInBand",
-    "test:unit": "npm run test --  --watchAll -c jest-unit.config.ts",
+    "test:unit": "npm run test --  --watch -c jest-unit.config.ts",
     "test:integration": "npm run test --  --watch -c jest-integration.config.ts",
     "test:cov": "rimraf coverage && npm run test --  --coverage",
     "build:compile": "rimraf dist && swc src -d dist --source-maps --config-file .swcrc -s inline",

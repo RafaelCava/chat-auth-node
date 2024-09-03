@@ -9,3 +9,4 @@ export * from "./refresh-token-spy";
 export * from "./room";
 export * from "./show-profile-spy";
 export * from "./list-all-rooms-use-case-spy";
+export * from "./message";
