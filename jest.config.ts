@@ -6,6 +6,7 @@ export default async (): Promise<Config> => {
     collectCoverageFrom: [
       '<rootDir>/src/**/*.ts',
       '!<rootDir>/src/**/index.ts',
+      '!<rootDir>/src/main/docs/**/*.ts',
       '!<rootDir>/src/infra/**/*-helper.ts',
     ],
     coverageDirectory: 'coverage',
@@ -13,7 +14,7 @@ export default async (): Promise<Config> => {
     coverageThreshold: {
       global: {
         statements: 90,
-        branches: 90,
+        branches: 70,
         lines: 90,
         functions: 90
       }

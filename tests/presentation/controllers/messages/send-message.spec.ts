@@ -102,6 +102,20 @@ describe("Send Message Controller", () => {
       expect(sendMessageUseCaseSpy.count).toBe(1);
     });
 
+    it("Should be call SendMessageUseCase with correct values - without createdAt prop", async () => {
+      const { sut, sendMessageUseCaseSpy } = makeSut();
+      const request = makeRequest();
+      delete request.createdAt;
+      await sut.handle(request);
+      expect(sendMessageUseCaseSpy.params).toEqual({
+        ownerId: request.userId,
+        content: request.content,
+        roomId: request.roomId,
+        createdAt: expect.any(Date),
+      });
+      expect(sendMessageUseCaseSpy.count).toBe(1);
+    });
+
     it("Should return serverError if SendMessageUseCase throws", async () => {
       const { sut, sendMessageUseCaseSpy } = makeSut();
       sendMessageUseCaseSpy.returnError = true;
