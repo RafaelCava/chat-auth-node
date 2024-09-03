@@ -9,9 +9,10 @@ import {
   FindUserByEmailRepository,
   FindUserByIdRepository,
   FindUsersRepository,
+  CreateMessageRepository,
 } from "@/data/protocols/db";
-import { Room, User } from "@/domain/entities";
-import { makeRoom, makeUser } from "@/tests/domain/mocks";
+import { Message, Room, User } from "@/domain/entities";
+import { makeMessage, makeRoom, makeUser } from "@/tests/domain/mocks";
 
 export class FindUserByEmailRepositorySpy
   implements FindUserByEmailRepository, Spy
@@ -219,6 +220,39 @@ export class FindRoomsRepositorySpy
     ++this.count;
     if (this.returnError) throw this.errorValue;
     if (this.returnNull) return await Promise.resolve([]);
+    return await Promise.resolve(this.result);
+  }
+}
+
+export class CreateMessageRepositorySpy
+  implements
+    CreateMessageRepository,
+    Spy<CreateMessageRepository.Params, CreateMessageRepository.Response>
+{
+  params: CreateMessageRepository.Params;
+
+  count: number = 0;
+
+  returnError: boolean = false;
+
+  returnNull?: boolean = false;
+
+  errorValue: Error = new Error(faker.lorem.sentence(3));
+
+  result: Message = makeMessage({});
+
+  async create(
+    data: CreateMessageRepository.Params,
+  ): Promise<CreateMessageRepository.Response> {
+    ++this.count;
+    this.params = data;
+    if (this.returnError) {
+      throw this.errorValue;
+    }
+    if (this.returnNull) {
+      return await Promise.resolve(null);
+    }
+
     return await Promise.resolve(this.result);
   }
 }

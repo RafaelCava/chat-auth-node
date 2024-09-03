@@ -6,3 +6,4 @@ export * from "./load-user-by-token";
 export * from "./authentication";
 export * from "./refresh-token";
 export * from "./show-profile";
+export * from "./messages";
