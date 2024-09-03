@@ -13,6 +13,8 @@ import { initPostgresSql } from "@/tests/infra/db/postgres/mocks/init-sql";
 import { JwtAdapter } from "@/infra/criptography/jwt/jwt-adapter";
 import env from "@/main/config/env";
 
+jest.mock("@/infra/db/mongodb/helpers/mongo-helper");
+
 describe("Users Routes", () => {
   let app: Express;
   let postgresContainer: StartedPostgreSqlContainer;

@@ -4,6 +4,8 @@ import { setupApp } from "@/main/config/app";
 
 let app: Express;
 
+jest.mock("@/infra/db/mongodb/helpers/mongo-helper");
+
 describe("BodyParser", () => {
   beforeAll(async () => {
     app = await setupApp();

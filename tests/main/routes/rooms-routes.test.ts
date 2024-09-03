@@ -14,6 +14,8 @@ import { JwtAdapter } from "@/infra/criptography/jwt/jwt-adapter";
 import env from "@/main/config/env";
 import { makeRoom } from "@/tests/domain/mocks";
 
+jest.mock("@/infra/db/mongodb/helpers/mongo-helper");
+
 describe("Rooms Routes", () => {
   let app: Express;
   let postgresContainer: StartedPostgreSqlContainer;

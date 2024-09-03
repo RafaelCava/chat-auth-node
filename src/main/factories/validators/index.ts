@@ -6,3 +6,4 @@ export * from "./list-all-rooms-validation-factory";
 export * from "./login-validation-factory";
 export * from "./refresh-token-validation-factory";
 export * from "./show-profile-validation-factory";
+export * from "./messages";

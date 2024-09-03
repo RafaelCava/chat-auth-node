@@ -15,6 +15,8 @@ import { BcryptAdapter } from "@/infra/criptography/bcrypt/bcrypt-adapter";
 import env from "@/main/config/env";
 import { JwtAdapter } from "@/infra/criptography/jwt/jwt-adapter";
 
+jest.mock("@/infra/db/mongodb/helpers/mongo-helper");
+
 describe("Authentication Routes", () => {
   let app: Express;
   let postgresContainer: StartedPostgreSqlContainer;
