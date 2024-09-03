@@ -1,29 +1,29 @@
-import { Express } from 'express'
-import request from 'supertest'
-import { setupApp } from '@/main/config/app'
+import { Express } from "express";
+import request from "supertest";
+import { setupApp } from "@/main/config/app";
 
-let app: Express
+let app: Express;
 
-describe('Content Type middleware', () => {
+describe("Content Type middleware", () => {
   beforeAll(async () => {
-    app = await setupApp()
-  })
+    app = await setupApp();
+  });
 
-  test('Should return default content type as json', async () => {
-    app.get('/test_content_type', (req, res) => {
-      res.send('')
-    })
+  test("Should return default content type as json", async () => {
+    app.get("/test_content_type", (req, res) => {
+      res.send("");
+    });
     await request(app)
-      .get('/test_content_type')
-      .expect('content-type', /json/ig)
-  })
-  test('Should return xml content type when forced', async () => {
-    app.get('/test_content_type_xml', (req, res) => {
-      res.type('xml')
-      res.send('')
-    })
+      .get("/test_content_type")
+      .expect("content-type", /json/gi);
+  });
+  test("Should return xml content type when forced", async () => {
+    app.get("/test_content_type_xml", (req, res) => {
+      res.type("xml");
+      res.send("");
+    });
     await request(app)
-      .get('/test_content_type_xml')
-      .expect('content-type', /xml/ig)
-  })
-})
+      .get("/test_content_type_xml")
+      .expect("content-type", /xml/gi);
+  });
+});

@@ -1,14 +1,25 @@
-import { CreateUserUseCase } from '@/domain/usecases/create-user';
-import { CreateUserController } from '@/presentation/controllers';
-import { Spy } from '@/tests/shared/spy';
-import { faker } from '@faker-js/faker';
-export class CreateUserUseCaseSpy implements CreateUserUseCase, Spy<CreateUserUseCase.Params, CreateUserUseCase.Response> {
+import { faker } from "@faker-js/faker";
+import { CreateUserUseCase } from "@/domain/usecases/create-user";
+import { CreateUserController } from "@/presentation/controllers";
+import { Spy } from "@/tests/shared/spy";
+
+export class CreateUserUseCaseSpy
+  implements
+    CreateUserUseCase,
+    Spy<CreateUserUseCase.Params, CreateUserUseCase.Response>
+{
   params: CreateUserUseCase.Params;
+
   count: number = 0;
+
   returnError: boolean;
+
   returnNull?: boolean;
+
   errorValue: Error = new Error(faker.lorem.sentence());
+
   result: CreateUserUseCase.Response = makeCreateUserUseCaseResponse();
+
   create(data: CreateUserUseCase.Params): Promise<CreateUserUseCase.Response> {
     ++this.count;
     this.params = data;
@@ -22,16 +33,18 @@ export class CreateUserUseCaseSpy implements CreateUserUseCase, Spy<CreateUserUs
   }
 }
 
-export const makeCreateUserUseCaseResponse = (): CreateUserUseCase.Response => ({
-  id: faker.string.uuid(),
-  name: faker.person.fullName(),
-  email: faker.internet.email(),
-  createdAt: faker.date.recent(),
-  updatedAt: faker.date.recent(),
-})
+export const makeCreateUserUseCaseResponse =
+  (): CreateUserUseCase.Response => ({
+    id: faker.string.uuid(),
+    name: faker.person.fullName(),
+    email: faker.internet.email(),
+    createdAt: faker.date.recent(),
+    updatedAt: faker.date.recent(),
+  });
 
-export const makeCreateUserControllerRequest = (): CreateUserController.Request => ({
-  name: faker.person.fullName(),
-  email: faker.internet.email(),
-  password: faker.internet.password(),
-})
+export const makeCreateUserControllerRequest =
+  (): CreateUserController.Request => ({
+    name: faker.person.fullName(),
+    email: faker.internet.email(),
+    password: faker.internet.password(),
+  });

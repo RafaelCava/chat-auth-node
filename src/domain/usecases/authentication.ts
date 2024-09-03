@@ -1,7 +1,9 @@
 import { TokenLogin } from "../models";
 
 export interface AuthenticationUseCase {
-  auth: (params: AuthenticationUseCase.Params) => Promise<AuthenticationUseCase.Result>
+  auth: (
+    params: AuthenticationUseCase.Params,
+  ) => Promise<AuthenticationUseCase.Result>;
 }
 
 export namespace AuthenticationUseCase {

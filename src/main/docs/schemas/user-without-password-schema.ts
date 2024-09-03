@@ -1,21 +1,21 @@
 export const userWithoutPasswordSchema = {
-  type: 'object',
+  type: "object",
   properties: {
     id: {
-      type: 'string'
+      type: "string",
     },
     name: {
-      type: 'string'
+      type: "string",
     },
     email: {
-      type: 'string'
+      type: "string",
     },
     createdAt: {
-      type: 'string'
+      type: "string",
     },
     updatedAt: {
-      type: 'string'
-    }
+      type: "string",
+    },
   },
-  required: ['id', 'name', 'email']
-}
+  required: ["id", "name", "email"],
+};

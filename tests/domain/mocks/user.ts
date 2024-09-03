@@ -1,8 +1,8 @@
-import { faker } from "@faker-js/faker"
-import { User } from "@/domain/entities"
+import { faker } from "@faker-js/faker";
+import { User } from "@/domain/entities";
 
 export const makeUser = (): User => {
-  const date = new Date()
+  const date = new Date();
   return {
     id: faker.string.uuid(),
     name: faker.person.fullName(),
@@ -10,5 +10,5 @@ export const makeUser = (): User => {
     password: faker.internet.password(),
     createdAt: date,
     updatedAt: date,
-  }
-}
+  };
+};

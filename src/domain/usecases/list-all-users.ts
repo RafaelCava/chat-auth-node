@@ -1,7 +1,9 @@
 import { User } from "../entities";
 
 export interface ListAllUsersUseCase {
-  listAll: (params: ListAllUsersUseCase.Params) => Promise<ListAllUsersUseCase.Result>;
+  listAll: (
+    params: ListAllUsersUseCase.Params,
+  ) => Promise<ListAllUsersUseCase.Result>;
 }
 
 export namespace ListAllUsersUseCase {

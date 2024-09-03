@@ -1,23 +1,23 @@
 export const roomSchema = {
-  type: 'object',
+  type: "object",
   properties: {
     id: {
-      type: 'string'
+      type: "string",
     },
     name: {
-      type: 'string'
+      type: "string",
     },
     description: {
-      type: 'string'
+      type: "string",
     },
     createdAt: {
-      type: 'string'
+      type: "string",
     },
     updatedAt: {
-      type: 'string'
+      type: "string",
     },
     ownerId: {
-      type: 'string'
-    }
-  }
-}
+      type: "string",
+    },
+  },
+};

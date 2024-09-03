@@ -1,28 +1,35 @@
 import { TokenLogin } from "@/domain/models";
 import { RefreshTokenUseCase } from "@/domain/usecases";
 import { AccessDeniedError } from "@/presentation/erros";
-import { badRequest, forbidden, ok, serverError } from "@/presentation/helpers/http-helper";
+import {
+  badRequest,
+  forbidden,
+  ok,
+  serverError,
+} from "@/presentation/helpers/http-helper";
 import { Controller, HttpResponse, Validation } from "@/presentation/protocols";
 
 export class RefreshTokenController implements Controller {
   constructor(
     private readonly validation: Validation,
-    private readonly refreshTokenUseCase: RefreshTokenUseCase
+    private readonly refreshTokenUseCase: RefreshTokenUseCase,
   ) {}
-  
-  async handle (request: RefreshTokenController.Request): Promise<RefreshTokenController.Result> {
+
+  async handle(
+    request: RefreshTokenController.Request,
+  ): Promise<RefreshTokenController.Result> {
     try {
-      const error = await this.validation.validate(request)
+      const error = await this.validation.validate(request);
       if (error) {
-        return badRequest(error)
+        return badRequest(error);
       }
-      const tokenAuth = await this.refreshTokenUseCase.refreshToken(request)
-      return ok(tokenAuth)
+      const tokenAuth = await this.refreshTokenUseCase.refreshToken(request);
+      return ok(tokenAuth);
     } catch (error) {
       if (error instanceof AccessDeniedError) {
-        return forbidden(error)
+        return forbidden(error);
       }
-      return serverError(error)
+      return serverError(error);
     }
   }
 }
@@ -32,5 +39,5 @@ export namespace RefreshTokenController {
     refreshToken: string;
   };
 
-  export type Result = HttpResponse<TokenLogin | Error>
+  export type Result = HttpResponse<TokenLogin | Error>;
 }

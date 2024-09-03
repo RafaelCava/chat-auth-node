@@ -1,39 +1,44 @@
-import { ShowProfile } from "@/data/usecases"
-import { FindUserByIdRepositorySpy } from "../mocks"
+import { ShowProfile } from "@/data/usecases";
+import { FindUserByIdRepositorySpy } from "../mocks";
 
 const makeSut = () => {
-  const findUserByIdRepositorySpy = new FindUserByIdRepositorySpy()
-  const sut = new ShowProfile(findUserByIdRepositorySpy)
-  
+  const findUserByIdRepositorySpy = new FindUserByIdRepositorySpy();
+  const sut = new ShowProfile(findUserByIdRepositorySpy);
+
   return {
     sut,
-    findUserByIdRepositorySpy
-  }
-}
+    findUserByIdRepositorySpy,
+  };
+};
 
-describe('ShowProfileUseCase', () => {
-  it('should be defined', () => {
-    const { sut, findUserByIdRepositorySpy } = makeSut()
-    expect(sut).toBeDefined()
-    expect(findUserByIdRepositorySpy).toBeDefined()
-  })
+describe("ShowProfileUseCase", () => {
+  it("should be defined", () => {
+    const { sut, findUserByIdRepositorySpy } = makeSut();
+    expect(sut).toBeDefined();
+    expect(findUserByIdRepositorySpy).toBeDefined();
+  });
 
-  it('Should call findById with correct values', async () => {
-    const { sut, findUserByIdRepositorySpy } = makeSut()
-    await sut.show('any_id')
-    expect(findUserByIdRepositorySpy.params).toEqual({ id: 'any_id', projection: ['name', 'email', 'createdAt', 'email', "updatedAt", "id"] })
-    expect(findUserByIdRepositorySpy.count).toBe(1)
-  })
+  it("Should call findById with correct values", async () => {
+    const { sut, findUserByIdRepositorySpy } = makeSut();
+    await sut.show("any_id");
+    expect(findUserByIdRepositorySpy.params).toEqual({
+      id: "any_id",
+      projection: ["name", "email", "createdAt", "email", "updatedAt", "id"],
+    });
+    expect(findUserByIdRepositorySpy.count).toBe(1);
+  });
 
-  it('Should throw if FindUserByIdRepository throws', async () => {
-    const { sut, findUserByIdRepositorySpy } = makeSut()
-    findUserByIdRepositorySpy.returnError = true
-    await expect(sut.show('any_id')).rejects.toThrow(findUserByIdRepositorySpy.errorValue)
-  })
+  it("Should throw if FindUserByIdRepository throws", async () => {
+    const { sut, findUserByIdRepositorySpy } = makeSut();
+    findUserByIdRepositorySpy.returnError = true;
+    await expect(sut.show("any_id")).rejects.toThrow(
+      findUserByIdRepositorySpy.errorValue,
+    );
+  });
 
-  it('Should return a user on success', async () => {
-    const { sut, findUserByIdRepositorySpy } = makeSut()
-    const response = await sut.show('any_id')
-    expect(response).toEqual(findUserByIdRepositorySpy.result)
-  })
-})
+  it("Should return a user on success", async () => {
+    const { sut, findUserByIdRepositorySpy } = makeSut();
+    const response = await sut.show("any_id");
+    expect(response).toEqual(findUserByIdRepositorySpy.result);
+  });
+});

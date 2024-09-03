@@ -1,6 +1,6 @@
 export const roomsSchema = {
-  type: 'array',
+  type: "array",
   items: {
-    $ref: '#/schemas/room'
-  }
-}
+    $ref: "#/schemas/room",
+  },
+};

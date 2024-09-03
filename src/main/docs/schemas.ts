@@ -7,17 +7,17 @@ import {
   createRoomParamsSchema,
   createUserParamsSchema,
   userWithoutPasswordSchema,
-  usersWithoutPasswordSchema
-} from './schemas/'
+  usersWithoutPasswordSchema,
+} from "./schemas";
 
 export default {
   error: errorSchema,
   loginParams: loginParamsSchema,
-  'authentication-result': authenticationResultSchema,
+  "authentication-result": authenticationResultSchema,
   room: roomSchema,
   rooms: roomsSchema,
-  'create-room-params': createRoomParamsSchema,
-  'create-user-params': createUserParamsSchema,
-  'user-without-password': userWithoutPasswordSchema,
-  'users-without-password': usersWithoutPasswordSchema
-}
+  "create-room-params": createRoomParamsSchema,
+  "create-user-params": createUserParamsSchema,
+  "user-without-password": userWithoutPasswordSchema,
+  "users-without-password": usersWithoutPasswordSchema,
+};

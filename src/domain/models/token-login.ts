@@ -1,4 +1,4 @@
 export type TokenLogin = {
-  accessToken: string
-  refreshToken: string
-}
+  accessToken: string;
+  refreshToken: string;
+};

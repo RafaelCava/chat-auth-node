@@ -1,12 +1,12 @@
 export const createRoomParamsSchema = {
-  type: 'object',
+  type: "object",
   properties: {
     name: {
-      type: 'string'
+      type: "string",
     },
     description: {
-      type: 'string'
-    }
+      type: "string",
+    },
   },
-  required: ['name']
-}
+  required: ["name"],
+};

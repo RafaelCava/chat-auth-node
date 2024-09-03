@@ -1,12 +1,12 @@
 export const loginParamsSchema = {
-  type: 'object',
+  type: "object",
   properties: {
     email: {
-      type: 'string'
+      type: "string",
     },
     password: {
-      type: 'string'
-    }
+      type: "string",
+    },
   },
-  required: ['email', 'password']
-}
+  required: ["email", "password"],
+};

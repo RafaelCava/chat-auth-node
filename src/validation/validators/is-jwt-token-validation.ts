@@ -1,21 +1,21 @@
-import { InvalidParamError } from "@/presentation/erros"
-import { Validation } from "@/presentation/protocols"
-import { JwtTokenValidator } from "../protocols"
-
+import { InvalidParamError } from "@/presentation/erros";
+import { Validation } from "@/presentation/protocols";
+import { JwtTokenValidator } from "../protocols";
 
 export class IsJwtTokenValidation implements Validation {
-  constructor (
+  constructor(
     private readonly fieldName: string,
-    private readonly jwtTokenValidator: JwtTokenValidator
+    private readonly jwtTokenValidator: JwtTokenValidator,
   ) {}
-  async validate (input: any): Promise<Error> {
+
+  async validate(input: any): Promise<Error> {
     try {
       if (!this.jwtTokenValidator.isJwt(input[this.fieldName])) {
-        return await Promise.reject(new InvalidParamError(this.fieldName))
+        return await Promise.reject(new InvalidParamError(this.fieldName));
       }
-      return await Promise.resolve(null)
+      return await Promise.resolve(null);
     } catch (error) {
-      return await Promise.reject(new InvalidParamError(this.fieldName))
+      return await Promise.reject(new InvalidParamError(this.fieldName));
     }
   }
 }

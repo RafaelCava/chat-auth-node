@@ -1,13 +1,15 @@
-import { TokenLogin } from "../models"
+import { TokenLogin } from "../models";
 
 export interface RefreshTokenUseCase {
-  refreshToken: (data: RefreshTokenUseCase.Params) => Promise<RefreshTokenUseCase.Result>
+  refreshToken: (
+    data: RefreshTokenUseCase.Params,
+  ) => Promise<RefreshTokenUseCase.Result>;
 }
 
 export namespace RefreshTokenUseCase {
   export type Params = {
-    refreshToken: string
-  }
+    refreshToken: string;
+  };
 
-  export type Result = TokenLogin
+  export type Result = TokenLogin;
 }

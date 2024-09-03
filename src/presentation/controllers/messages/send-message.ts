@@ -1,9 +1,20 @@
 import { Message } from "@/domain/entities";
-import { Controller, HttpResponse } from "@/presentation/protocols";
+import { badRequest } from "@/presentation/helpers/http-helper";
+import { Controller, HttpResponse, Validation } from "@/presentation/protocols";
 
-export class SendMessageController implements Controller<SendMessageController.Request, SendMessageController.Response> {
-  async handle (request: SendMessageController.Request): Promise<HttpResponse<SendMessageController.Response>> {
-    await Promise.resolve(request)
+export class SendMessageController
+  implements
+    Controller<SendMessageController.Request, SendMessageController.Response>
+{
+  constructor(private readonly validation: Validation) {}
+
+  async handle(
+    request: SendMessageController.Request,
+  ): Promise<HttpResponse<SendMessageController.Response>> {
+    const error: any = await this.validation.validate(request);
+    if (error) {
+      return badRequest(error);
+    }
     return null;
   }
 }
@@ -16,5 +27,5 @@ export namespace SendMessageController {
     createdAt?: string;
   };
 
-  export type Response = Message;
+  export type Response = Message | Error;
 }

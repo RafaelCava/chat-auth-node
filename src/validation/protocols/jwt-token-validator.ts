@@ -1,3 +1,3 @@
 export interface JwtTokenValidator {
-  isJwt: (token: string) => boolean
+  isJwt: (token: string) => boolean;
 }

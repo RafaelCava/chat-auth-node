@@ -1,38 +1,38 @@
 export const refreshPath = {
   get: {
-    tags: ['Auth'],
-    summary: 'API para renovar o token de autenticação',
+    tags: ["Auth"],
+    summary: "API para renovar o token de autenticação",
     parameters: [
       {
-        in: 'query',
-        name: 'refreshToken',
+        in: "query",
+        name: "refreshToken",
         required: true,
         schema: {
-          type: 'string',
-          example: 'refreshToken'
-        }
-      }
+          type: "string",
+          example: "refreshToken",
+        },
+      },
     ],
     responses: {
       200: {
-        description: 'Sucesso',
+        description: "Sucesso",
         content: {
-          'application/json': {
+          "application/json": {
             schema: {
-              $ref: '#/schemas/authentication-result'
-            }
-          }
-        }
+              $ref: "#/schemas/authentication-result",
+            },
+          },
+        },
       },
       400: {
-        $ref: '#/components/badRequest'
+        $ref: "#/components/badRequest",
       },
       401: {
-        $ref: '#/components/unauthorized'
+        $ref: "#/components/unauthorized",
       },
       500: {
-        $ref: '#/components/serverError'
+        $ref: "#/components/serverError",
       },
-    }
-  }
-}
+    },
+  },
+};

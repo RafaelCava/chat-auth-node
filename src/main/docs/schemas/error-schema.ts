@@ -1,8 +1,8 @@
 export const errorSchema = {
-  type: 'object',
+  type: "object",
   properties: {
     error: {
-      type: 'string'
-    }
-  }
-}
+      type: "string",
+    },
+  },
+};

@@ -1,6 +1,6 @@
 export const usersWithoutPasswordSchema = {
-  type: 'array',
+  type: "array",
   items: {
-    $ref: '#/schemas/user-without-password'
-  }
-}
+    $ref: "#/schemas/user-without-password",
+  },
+};

@@ -1,12 +1,12 @@
 export const authenticationResultSchema = {
-  type: 'object',
+  type: "object",
   properties: {
     accessToken: {
-      type: 'string'
+      type: "string",
     },
     refreshToken: {
-      type: 'string'
-    }
+      type: "string",
+    },
   },
-  required: ['accessToken', 'refreshToken']
-}
+  required: ["accessToken", "refreshToken"],
+};

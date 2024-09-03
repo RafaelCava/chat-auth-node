@@ -8,11 +8,18 @@ import { JwtAdapter } from "@/infra/criptography/jwt/jwt-adapter";
 import env from "@/main/config/env";
 
 export const makeLoginController = (): Controller => {
-  const findUserByEmailRepository = new FindUserByEmailPostgresRepository()
-  const hashAdapter = new BcryptAdapter(env.saltHasher)
-  const encrypterAdapter = new JwtAdapter(env.jwtSecret, env.jwtIssuer)
-  const authenticationUseCase = new Authentication(findUserByEmailRepository, hashAdapter, encrypterAdapter)
-  const validation = makeLoginValidationFactory()
-  const loginController = new LoginController(validation, authenticationUseCase)
-  return loginController
-}
+  const findUserByEmailRepository = new FindUserByEmailPostgresRepository();
+  const hashAdapter = new BcryptAdapter(env.saltHasher);
+  const encrypterAdapter = new JwtAdapter(env.jwtSecret, env.jwtIssuer);
+  const authenticationUseCase = new Authentication(
+    findUserByEmailRepository,
+    hashAdapter,
+    encrypterAdapter,
+  );
+  const validation = makeLoginValidationFactory();
+  const loginController = new LoginController(
+    validation,
+    authenticationUseCase,
+  );
+  return loginController;
+};

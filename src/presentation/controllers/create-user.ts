@@ -3,16 +3,20 @@ import { badRequest, created, serverError } from "../helpers/http-helper";
 import { Controller, HttpResponse, Validation } from "../protocols";
 import { UserExistsError } from "../erros";
 
-export class CreateUserController implements Controller<CreateUserController.Request> {
+export class CreateUserController
+  implements Controller<CreateUserController.Request>
+{
   constructor(
     private readonly validation: Validation,
     private readonly createUser: CreateUserUseCase,
   ) {}
 
-  async handle(request: CreateUserController.Request): Promise<CreateUserController.Response> {
+  async handle(
+    request: CreateUserController.Request,
+  ): Promise<CreateUserController.Response> {
     try {
       const error = await this.validation.validate(request);
-      
+
       if (error) {
         return badRequest(error);
       }
@@ -35,5 +39,5 @@ export namespace CreateUserController {
     password: string;
   };
 
-  export type Response = HttpResponse<CreateUserUseCase.Response | Error>
+  export type Response = HttpResponse<CreateUserUseCase.Response | Error>;
 }

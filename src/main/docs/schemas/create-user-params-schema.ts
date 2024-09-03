@@ -1,15 +1,15 @@
 export const createUserParamsSchema = {
-  type: 'object',
+  type: "object",
   properties: {
     name: {
-      type: 'string'
+      type: "string",
     },
     email: {
-      type: 'string'
+      type: "string",
     },
     password: {
-      type: 'string'
-    }
+      type: "string",
+    },
   },
-  required: ['name', 'email', 'password']
-}
+  required: ["name", "email", "password"],
+};

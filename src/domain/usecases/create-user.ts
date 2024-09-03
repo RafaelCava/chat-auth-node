@@ -11,5 +11,5 @@ export namespace CreateUserUseCase {
     password: string;
   };
 
-  export type Response = Omit<User, 'password'>;
+  export type Response = Omit<User, "password">;
 }

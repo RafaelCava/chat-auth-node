@@ -5,8 +5,8 @@ import { ListAllRooms } from "@/data/usecases";
 import { FindRoomsPostgresRepository } from "@/infra/db/postgres/repositories";
 
 export const makeListAllRoomsController = (): Controller => {
-  const validations = makeListAllRoomsValidation()
-  const findRoomsRepository = new FindRoomsPostgresRepository()
-  const listAllRoomsUseCase = new ListAllRooms(findRoomsRepository)
-  return new ListAllRoomsController(validations, listAllRoomsUseCase)
-}
+  const validations = makeListAllRoomsValidation();
+  const findRoomsRepository = new FindRoomsPostgresRepository();
+  const listAllRoomsUseCase = new ListAllRooms(findRoomsRepository);
+  return new ListAllRoomsController(validations, listAllRoomsUseCase);
+};

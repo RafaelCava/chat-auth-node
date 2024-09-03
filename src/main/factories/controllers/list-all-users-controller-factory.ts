@@ -5,9 +5,9 @@ import { ListAllUsers } from "@/data/usecases";
 import { ListAllUsersController } from "@/presentation/controllers";
 
 export const makeListAllUsersController = (): Controller => {
-  const validation = makeListAllUsersValidation()
-  const findUsersRepository = new FindUsersPostgresRepository()
-  const listUsersUseCase = new ListAllUsers(findUsersRepository)
-  const controller = new ListAllUsersController(validation, listUsersUseCase)
-  return controller
-}
+  const validation = makeListAllUsersValidation();
+  const findUsersRepository = new FindUsersPostgresRepository();
+  const listUsersUseCase = new ListAllUsers(findUsersRepository);
+  const controller = new ListAllUsersController(validation, listUsersUseCase);
+  return controller;
+};

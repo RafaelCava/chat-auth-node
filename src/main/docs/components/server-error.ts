@@ -1,10 +1,10 @@
 export const serverError = {
-  description: 'Problema no servidor',
+  description: "Problema no servidor",
   content: {
-    'application/json': {
+    "application/json": {
       schema: {
-        $ref: '#/schemas/error'
-      }
-    }
-  }
-}
+        $ref: "#/schemas/error",
+      },
+    },
+  },
+};
