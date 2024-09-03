@@ -7,4 +7,5 @@ dist
 .scannerwork
 .eslintrc.js
 jest**.config.js
+jest.config.ts
 commitlint.config.js
