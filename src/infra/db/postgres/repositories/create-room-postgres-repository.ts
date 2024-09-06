@@ -13,6 +13,11 @@ export class CreateRoomPostgresRepository implements CreateRoomRepository {
         createdAt: params.createdAt,
         id: params.id,
         updatedAt: params.updatedAt,
+        UserOnRoom: {
+          create: {
+            userId: params.ownerId,
+          },
+        },
       },
     });
   }

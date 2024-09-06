@@ -56,6 +56,7 @@ describe("Rooms Routes", () => {
   });
 
   afterEach(async () => {
+    await postgresClient.query('DELETE FROM "UserOnRoom"');
     await postgresClient.query('DELETE FROM "Room"');
     await postgresClient.query('DELETE FROM "User"');
   });

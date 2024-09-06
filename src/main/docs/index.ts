@@ -33,6 +33,9 @@ export default {
     {
       name: "Auth",
     },
+    {
+      name: "Messages",
+    },
   ],
   paths,
   schemas,

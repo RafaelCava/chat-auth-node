@@ -4,7 +4,8 @@ import {
   usersPath,
   refreshPath,
   profilePath,
-} from "./paths";
+  messagesPath,
+} from "./paths/";
 
 export default {
   "/auth/login": loginPath,
@@ -12,4 +13,5 @@ export default {
   "/auth/profile": profilePath,
   "/rooms": roomsPath,
   "/users": usersPath,
+  "/messages": messagesPath,
 };

@@ -27,5 +27,6 @@ module.exports = {
     "no-return-await": "off",
     "class-methods-use-this": "off",
     "no-plusplus": "off",
+    "import/no-useless-path-segments": "off"
   },
 };

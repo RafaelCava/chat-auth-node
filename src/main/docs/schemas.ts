@@ -8,7 +8,9 @@ import {
   createUserParamsSchema,
   userWithoutPasswordSchema,
   usersWithoutPasswordSchema,
-} from "./schemas";
+  messageSchema,
+  sendMessageParamsSchema,
+} from "./schemas/";
 
 export default {
   error: errorSchema,
@@ -20,4 +22,6 @@ export default {
   "create-user-params": createUserParamsSchema,
   "user-without-password": userWithoutPasswordSchema,
   "users-without-password": usersWithoutPasswordSchema,
+  message: messageSchema,
+  "send-message-params": sendMessageParamsSchema,
 };

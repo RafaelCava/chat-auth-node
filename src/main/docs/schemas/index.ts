@@ -8,3 +8,5 @@ export * from "./create-room-params-schema";
 export * from "./create-user-params-schema";
 export * from "./user-without-password-schema";
 export * from "./users-without-password-schema";
+export * from "./message-schema";
+export * from "./send-message-params-schemas";
