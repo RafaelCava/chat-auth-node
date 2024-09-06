@@ -10,4 +10,5 @@ export default {
   jwtIssuer: process.env.JWT_ISSUER || "issuer",
   saltHasher: Number(process.env.SALT_HASHER) || 11,
   applicationDomain: process.env.APPLICATION_DOMAIN,
+  mongoUrlTest: process.env.MONGO_URI_TEST || "mongodb://localhost:27017",
 };

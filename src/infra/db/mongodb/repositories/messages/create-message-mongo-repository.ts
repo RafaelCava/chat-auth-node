@@ -16,6 +16,8 @@ export class CreateMessageMongoRepository implements CreateMessageRepository {
       roomId: data.roomId,
       createdAt: data.createdAt,
     });
-    return MongoHelper.map<CreateMessageRepository.Response>(mongoData);
+    return MongoHelper.map<CreateMessageRepository.Response>(
+      mongoData.toJSON(),
+    );
   }
 }

@@ -93,6 +93,7 @@ services:
       MONGO_USER: mongo-chat-auth
       MONGO_DB: chat-auth
       DATABASE_URL: "postgresql://postgres-chat-auth:postgres-chat-auth@host.docker.internal:5432/chat-auth?schema=public"
+      MONGO_URI_TEST: "mongodb://mongo-chat-auth:mongo-chat-auth@host.docker.internal:27017/test?authSource=admin"
       REDIS_URL: "redis://host.docker.internal:6379"
       JWT_SECRET: "secret"
       JWT_ISSUER: "chat-auth-node"

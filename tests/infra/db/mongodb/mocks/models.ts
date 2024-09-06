@@ -25,6 +25,6 @@ export class MessageModelSpy implements Spy {
     if (this.returnNull) {
       return await Promise.resolve(null);
     }
-    return await Promise.resolve(this.result);
+    return await Promise.resolve({ ...this.result, toJSON: () => this.result });
   }
 }
