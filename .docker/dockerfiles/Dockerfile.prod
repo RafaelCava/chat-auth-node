@@ -1,4 +1,6 @@
-FROM node:20 as install-dependencies
+FROM node:20 AS image-base
+
+FROM image-base AS install-dependencies
 
 WORKDIR /usr/chat-auth-node/app
 
@@ -8,7 +10,7 @@ COPY package.json .
 
 RUN npm install --omit=dev
 
-FROM node:20 as builder
+FROM image-base AS builder
 
 WORKDIR /usr/chat-auth-node/app
 
@@ -20,16 +22,16 @@ RUN npx prisma generate
 
 RUN npm run build
 
-FROM node:20-alpine as production
+FROM image-base AS production
 
 ENV NODE_ENV=production
 
 WORKDIR /usr/chat-auth-node/app
 
-RUN apk add --no-cache bash curl
+RUN apt-get install bash curl
 
-LABEL org.opencontainers.image.authors "ra.facavalcante@hotmail.com"
-LABEL org.opencontainers.image.description "Chat Auth Node"
+LABEL org.opencontainers.image.authors="ra.facavalcante@hotmail.com"
+LABEL org.opencontainers.image.description="Chat Auth Node"
 
 COPY .docker/entrypoints/entrypoint-prod.sh ./entrypoint.sh
 COPY package.json .

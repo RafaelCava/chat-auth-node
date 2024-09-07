@@ -11,13 +11,8 @@ declare module NodeJS {
     REDIS_URL: string;
     PORT: string;
     NODE_ENV: string;
+    MONGO_URI: string;
     MONGO_URI_TEST: string;
-    MONGO_DB: string;
-    MONGO_USER: string;
-    MONGO_PASSWORD: string;
-    MONGO_HOST: string;
-    MONGO_PORT: string;
-    MONGO_OPTIONS: string;
     SALT_HASHER: string;
     APPLICATION_DOMAIN: string;
   }

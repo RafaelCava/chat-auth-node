@@ -8,6 +8,8 @@ import env from "@/main/config/env";
 let server: Server;
 
 async function gracefulShutdown() {
+  // eslint-disable-next-line no-console
+  console.log("Shutting down server...");
   if (server) {
     server.close((err) => {
       if (err) {
@@ -22,7 +24,8 @@ async function gracefulShutdown() {
     PostgresHelper.disconnect().catch(),
     RedisHelper.disconnect().catch(),
   ]);
-
+  // eslint-disable-next-line no-console
+  console.log("Server stopped.");
   process.exit(0);
 }
 
