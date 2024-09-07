@@ -17,7 +17,6 @@ export class Message {
     Object.assign(this, props);
 
     this.id = id || uuidV4();
-    this.createdAt = this.createdAt || new Date();
     this.updatedAt = new Date();
   }
 }
