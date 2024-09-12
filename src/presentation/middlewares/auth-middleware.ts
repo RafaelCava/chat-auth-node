@@ -1,3 +1,4 @@
+import { JsonWebTokenError } from "jsonwebtoken";
 import { LoadUserByTokenUseCase } from "@/domain/usecases";
 import { AccessDeniedError } from "../erros";
 import { forbidden, ok, serverError } from "../helpers/http-helper";
@@ -20,6 +21,8 @@ export class AuthMiddleware implements Middleware {
       if (!user) return forbidden(new AccessDeniedError());
       return ok({ userId: user.id });
     } catch (err) {
+      if (err instanceof JsonWebTokenError)
+        return forbidden(new AccessDeniedError());
       return serverError(err);
     }
   }

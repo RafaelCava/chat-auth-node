@@ -79,12 +79,12 @@ describe("Messages Routes", () => {
           .expect({ error: "Access denied" });
       });
 
-      it("Should return 500 if invalid token is provided", async () => {
+      it("Should return 403 if invalid token is provided", async () => {
         await request(app)
           .post("/api/messages")
           .set("x-access-token", "invalid_token")
-          .expect(500)
-          .expect({ error: "jwt malformed" });
+          .expect(403)
+          .expect({ error: "Access denied" });
       });
 
       it("Should return 400 if no content is provided", async () => {

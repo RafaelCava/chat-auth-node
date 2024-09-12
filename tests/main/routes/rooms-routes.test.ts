@@ -84,12 +84,12 @@ describe("Rooms Routes", () => {
         .expect({ error: "Access denied" });
     });
 
-    it("Should return 500 if invalid token is provided", async () => {
+    it("Should return 403 if invalid token is provided", async () => {
       await request(app)
         .get("/api/rooms?page=1&limit=10")
         .set("x-access-token", "invalid_token")
-        .expect(500)
-        .expect({ error: "jwt malformed" });
+        .expect(403)
+        .expect({ error: "Access denied" });
     });
 
     it("Should return 400 if invalid query params are provided - limit", async () => {
@@ -279,12 +279,12 @@ describe("Rooms Routes", () => {
         .expect({ error: "Access denied" });
     });
 
-    it("Should return 500 if invalid token is provided", async () => {
+    it("Should return 403 if invalid token is provided", async () => {
       await request(app)
         .post("/api/rooms")
         .set("x-access-token", "invalid_token")
-        .expect(500)
-        .expect({ error: "jwt malformed" });
+        .expect(403)
+        .expect({ error: "Access denied" });
     });
 
     it("Should return 400 if no name is provided", async () => {

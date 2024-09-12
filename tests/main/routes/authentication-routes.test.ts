@@ -287,12 +287,12 @@ describe("Authentication Routes", () => {
           .expect({ error: "Access denied" });
       });
 
-      it("Should return 500 if token is invalid", async () => {
+      it("Should return 403 if token is invalid", async () => {
         await request(app)
           .get("/api/auth/profile")
           .set("x-access-token", "invalid_token")
-          .expect(500)
-          .expect({ error: "jwt malformed" });
+          .expect(403)
+          .expect({ error: "Access denied" });
       });
     });
   });
